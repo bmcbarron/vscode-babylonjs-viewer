@@ -15,6 +15,10 @@
 			"outFiles": [
 				"${workspaceFolder}/out/**/*.js"
 			],
+			"skipFiles": [
+				// This path is a subdirectory of the VS Code installation, so the pattern is a bit loose.
+				"**/out/vs/workbench/**",
+			],
 			"preLaunchTask": "${defaultBuildTask}"
 		},
 		{

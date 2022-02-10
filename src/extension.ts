@@ -1,26 +1,17 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
+import { SandboxPreviewProvider } from "./sandboxPreview";
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "bjs-sandbox" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('bjs-sandbox.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from bjs-sandbox!');
-	});
-
-	context.subscriptions.push(disposable);
+  console.log("babylonjs.sandbox.preview extension is active.");
+  context.subscriptions.push(SandboxPreviewProvider.register(context));
 }
 
-// this method is called when your extension is deactivated
-export function deactivate() {}
+// https://github.com/rebornix/vscode-webview-react/tree/master/ext-src
+// https://webpack.js.org/concepts/entry-points/
+// https://doc.babylonjs.com/divingDeeper/developWithBjs/treeShaking
+// https://github.com/microsoft/vscode-extension-samples/blob/main/webview-sample/src/extension.ts
+// https://code.visualstudio.com/api/extension-guides/webview
+// https://code.visualstudio.com/api/working-with-extensions/bundling-extension
+// https://doc.babylonjs.com/divingDeeper/developWithBjs/npmSupport
+// https://github.com/BabylonJS/Babylon.js/blob/master/sandbox/webpack.config.js
+// https://github.com/BabylonJS/Babylon.js/blob/master/sandbox/src/sandbox.tsx

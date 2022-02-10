@@ -1,5 +1,5 @@
 {
-  "name": "bjs-sandbox",
+	"name": "bjs-sandbox",
 	"displayName": "bjs-sandbox",
 	"description": "A viewer of BabylonJS assets using the Sandbox.",
 	"version": "0.0.1",
@@ -10,36 +10,82 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:bjs-sandbox.helloWorld"
+		"onCustomEditor:babylonjs.sandbox.preview",
+		"onCommand:babylon.sandbox.showPreview"
 	],
-	"main": "./out/extension.js",
+	"main": "./dist/extension.js",
+	"// main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "bjs-sandbox.helloWorld",
-				"title": "Hello World"
+				"command": "babylonjs.sandbox.showPreview",
+				"title": "Open Babylon Sandbox Preview",
+				"category": "babylon.js"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "babylonjs.sandbox.showPreview",
+					"when": "true",
+					"group": "navigation"
+				}
+			]
+		},
+		"customEditors": [
+			{
+				"viewType": "babylonjs.sandbox.preview",
+				"displayName": "Babylon Sandbox Preview",
+				"priority": "default",
+				"selector": [
+					{
+						"filenamePattern": "*.babylon"
+					}
+				]
 			}
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
+		"// vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
+		"test": "node ./out/test/runTest.js",
+		"vscode:prepublish": "npm run package",
+		"webpack": "webpack --mode development",
+		"webpack-dev": "webpack --mode development --watch",
+		"package": "webpack --mode production --devtool hidden-source-map",
+		"test-compile": "tsc -p ./"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.64.0",
 		"@types/glob": "^7.2.0",
 		"@types/mocha": "^9.0.0",
 		"@types/node": "14.x",
+		"@types/vscode": "^1.64.0",
 		"@typescript-eslint/eslint-plugin": "^5.9.1",
 		"@typescript-eslint/parser": "^5.9.1",
+		"@vscode/test-electron": "^2.0.3",
+		"css-loader": "^6.6.0",
 		"eslint": "^8.6.0",
 		"glob": "^7.2.0",
+		"mini-css-extract-plugin": "^2.5.3",
 		"mocha": "^9.1.3",
+		"sass": "^1.49.7",
+		"sass-loader": "^12.4.0",
+		"source-map-loader": "^3.0.1",
+		"style-loader": "^3.3.1",
+		"ts-loader": "^9.2.6",
 		"typescript": "^4.5.4",
-		"@vscode/test-electron": "^2.0.3"
+		"webpack": "^5.68.0",
+		"webpack-cli": "^4.9.2"
+	},
+	"dependencies": {
+		"@babylonjs/core": "^5.0.0-beta.6",
+		"@babylonjs/gui": "^5.0.0-beta.6",
+		"@babylonjs/inspector": "^5.0.0-beta.6",
+		"@babylonjs/loaders": "^5.0.0-beta.6",
+		"@babylonjs/materials": "^5.0.0-beta.6",
+		"@babylonjs/serializers": "^5.0.0-beta.6"
 	}
 }
