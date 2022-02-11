@@ -5,9 +5,9 @@ import { DropUpButton } from "./dropUpButton";
 import { EnvironmentTools } from "../tools/environmentTools";
 import { FooterFileButton } from "./footerFileButton";
 import { AnimationBar } from "./animationBar";
-import { Nullable } from "babylonjs/types";
-import { KHR_materials_variants } from "babylonjs-loaders/glTF/2.0/Extensions/KHR_materials_variants";
-import { Mesh } from "babylonjs/Meshes/mesh";
+import { Nullable } from "@babylonjs/core/types";
+import { Mesh } from "@babylonjs/core/Meshes/mesh";
+import { KHR_materials_variants } from "@babylonjs/loaders/glTF/2.0/Extensions/KHR_materials_variants";
 
 require("../scss/footer.scss");
 var babylonIdentity = require("../img/babylon-identity.svg");

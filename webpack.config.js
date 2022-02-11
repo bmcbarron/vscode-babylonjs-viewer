@@ -3,23 +3,22 @@
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
 const path = require("path");
-const webpack = require("webpack");
 
 /**@type {import('webpack').Configuration}*/
 const config = {
-  target: "webworker", // vscode extensions run in webworker context for VS Code web 📖 -> https://webpack.js.org/configuration/target/#target
-
+  // vscode extensions run in webworker context for VS Code web
+  target: "webworker",
   entry: {
-    ext: "./src/extension.ts",
-    wv: {
-      filename: "index.js",
-      import: "./src/index.ts",
+    // The entry point of this extension.
+    extension: "./src/extension.ts",
+    // The entry point of the webview.
+    webview: {
+      filename: "webview.js",
+      import: "./src/webview.ts",
     },
-  }, // the entry points of this extension, 📖 -> https://webpack.js.org/configuration/entry-context/
+  },
   output: {
-    // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
     path: path.resolve(__dirname, "dist"),
     filename: "extension.js",
     libraryTarget: "commonjs2",
@@ -27,12 +26,14 @@ const config = {
   },
   devtool: "source-map",
   externals: {
-    vscode: "commonjs vscode", // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot be webpack'ed, 📖 -> https://webpack.js.org/configuration/externals/
+    // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot
+    // be webpack'ed
+    vscode: "commonjs vscode",
   },
   resolve: {
-    // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
-    mainFields: ["browser", "module", "main"], // look for `browser` entry point in imported node modules
-    extensions: [".ts", ".js"],
+    // look for `browser` entry point in imported node modules
+    mainFields: ["browser", "module", "main"],
+    extensions: [".ts", ".tsx", ".js"],
     alias: {
       // provides alternate implementation for node module and source files
     },
@@ -45,31 +46,26 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: [{ loader: "ts-loader" }],
+      },
+      {
+        // Combine .ts => .js source maps with webpack source maps.
         test: /\.js$/,
         enforce: "pre",
         use: ["source-map-loader"],
       },
       {
-        test: /\.scss$/,
-        use: [
-          // fallback to style-loader in development
-          process.env.NODE_ENV !== "production"
-            ? "style-loader"
-            : MiniCssExtractPlugin.loader,
-          "css-loader",
-          "sass-loader",
-        ],
+        test: /\.s?css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: "ts-loader",
-          },
-        ],
+        test: /\.svg$/,
+        type: "asset/resource",
       },
     ],
   },
+  plugins: [new MiniCssExtractPlugin()],
 };
 module.exports = config;

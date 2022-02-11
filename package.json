@@ -75,6 +75,7 @@
 		"sass-loader": "^12.4.0",
 		"source-map-loader": "^3.0.1",
 		"style-loader": "^3.3.1",
+		"svg-url-loader": "^7.1.1",
 		"ts-loader": "^9.2.6",
 		"typescript": "^4.5.4",
 		"webpack": "^5.68.0",
@@ -86,6 +87,8 @@
 		"@babylonjs/inspector": "^5.0.0-beta.6",
 		"@babylonjs/loaders": "^5.0.0-beta.6",
 		"@babylonjs/materials": "^5.0.0-beta.6",
-		"@babylonjs/serializers": "^5.0.0-beta.6"
+		"@babylonjs/serializers": "^5.0.0-beta.6",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
 	}
 }
