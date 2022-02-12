@@ -1,68 +1,12 @@
 // Based on https://github.com/microsoft/vscode-extension-samples/blob/main/custom-editor-sample
 import * as vscode from "vscode";
 
-function getNonce() {
-  let text = "";
-  const possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for (let i = 0; i < 32; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-}
-
-function disposeAll(disposables: vscode.Disposable[]): void {
-  while (disposables.length) {
-    const item = disposables.pop();
-    if (item) {
-      item.dispose();
-    }
-  }
-}
-
-abstract class Disposable {
-  private _isDisposed = false;
-
-  protected _disposables: vscode.Disposable[] = [];
-
-  public dispose(): any {
-    if (this._isDisposed) {
-      return;
-    }
-    this._isDisposed = true;
-    disposeAll(this._disposables);
-  }
-
-  protected _register<T extends vscode.Disposable>(value: T): T {
-    if (this._isDisposed) {
-      value.dispose();
-    } else {
-      this._disposables.push(value);
-    }
-    return value;
-  }
-
-  protected get isDisposed(): boolean {
-    return this._isDisposed;
-  }
-}
-
-class SandboxDocument extends Disposable implements vscode.CustomDocument {
+class SandboxDocument implements vscode.CustomDocument {
   static async create(uri: vscode.Uri): Promise<SandboxDocument> {
-    // If we have a backup, read that. Otherwise read the resource from the workspace
-    // const dataFile = typeof backupId === 'string' ? vscode.Uri.parse(backupId) : uri;
-    // const fileData = await PawDrawDocument.readFile(dataFile);
-    return new SandboxDocument(uri); // , fileData, delegate);
+    return new SandboxDocument(uri);
   }
 
-  private readonly _onDidDispose = this._register(
-    new vscode.EventEmitter<void>()
-  );
-  public readonly onDidDispose = this._onDidDispose.event;
-
-  private constructor(readonly uri: vscode.Uri) {
-    super();
-  }
+  private constructor(readonly uri: vscode.Uri) {}
 
   dispose(): void {
     console.log(`SandboxDocument disposed: ${this.uri}`);
@@ -90,47 +34,13 @@ export class SandboxPreviewProvider
   private static readonly viewType = "babylonjs.sandbox.preview";
 
   constructor(private readonly context: vscode.ExtensionContext) {}
+
   async openCustomDocument(
     uri: vscode.Uri,
     openContext: { backupId?: string },
     _token: vscode.CancellationToken
   ): Promise<SandboxDocument> {
-    const document: SandboxDocument = await SandboxDocument.create(uri);
-    // , openContext.backupId, {
-    // 	getFileData: async () => {
-    // 		const webviewsForDocument = Array.from(this.webviews.get(document.uri));
-    // 		if (!webviewsForDocument.length) {
-    // 			throw new Error('Could not find webview to save for');
-    // 		}
-    // 		const panel = webviewsForDocument[0];
-    // 		const response = await this.postMessageWithResponse<number[]>(panel, 'getFileData', {});
-    // 		return new Uint8Array(response);
-    // 	}
-    // });
-
-    const listeners: vscode.Disposable[] = [];
-
-    // listeners.push(document.onDidChange(e => {
-    // 	// Tell VS Code that the document has been edited by the use.
-    // 	this._onDidChangeCustomDocument.fire({
-    // 		document,
-    // 		...e,
-    // 	});
-    // }));
-
-    // listeners.push(document.onDidChangeContent(e => {
-    // 	// Update all webviews when the document changes
-    // 	for (const webviewPanel of this.webviews.get(document.uri)) {
-    // 		this.postMessage(webviewPanel, 'update', {
-    // 			edits: e.edits,
-    // 			content: e.content,
-    // 		});
-    // 	}
-    // }));
-
-    document.onDidDispose(() => disposeAll(listeners));
-
-    return document;
+    return await SandboxDocument.create(uri);
   }
 
   async resolveCustomEditor(
@@ -138,26 +48,22 @@ export class SandboxPreviewProvider
     webviewPanel: vscode.WebviewPanel,
     _token: vscode.CancellationToken
   ): Promise<void> {
-    // Add the webview to our internal set of active webviews
-    // TODO: this.webviews.add(document.uri, webviewPanel);
-
     // Setup initial content for the webview
     webviewPanel.webview.options = {
       enableScripts: true,
     };
     webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview);
 
-    webviewPanel.webview.onDidReceiveMessage((e) =>
-      this.onMessage(document, e)
-    );
-
     // Wait for the webview to be properly ready before we init
     webviewPanel.webview.onDidReceiveMessage((e) => {
       if (e.type === "ready") {
         if (document.uri.scheme === "untitled") {
-          this.postMessage(webviewPanel, "init", {
-            untitled: true,
-            editable: true,
+          webviewPanel.webview.postMessage({
+            type: "init",
+            body: {
+              untitled: true,
+              editable: true,
+            },
           });
         } else {
           const editable = vscode.workspace.fs.isWritableFileSystem(
@@ -166,39 +72,16 @@ export class SandboxPreviewProvider
           const uri = webviewPanel.webview
             .asWebviewUri(document.uri)
             .toString();
-          this.postMessage(webviewPanel, "init", { uri, editable });
+          webviewPanel.webview.postMessage({
+            type: "init",
+            body: { uri, editable },
+          });
         }
       }
     });
   }
 
-  private readonly _onDidChangeCustomDocument = new vscode.EventEmitter<
-    vscode.CustomDocumentEditEvent<SandboxDocument>
-  >();
-  public readonly onDidChangeCustomDocument =
-    this._onDidChangeCustomDocument.event;
-
-  // public saveCustomDocument(document: SandboxDocument, cancellation: vscode.CancellationToken): Thenable<void> {
-  // 	return document.save(cancellation);
-  // }
-
-  // public saveCustomDocumentAs(document: SandboxDocument, destination: vscode.Uri, cancellation: vscode.CancellationToken): Thenable<void> {
-  // 	return document.saveAs(destination, cancellation);
-  // }
-
-  // public revertCustomDocument(document: SandboxDocument, cancellation: vscode.CancellationToken): Thenable<void> {
-  // 	return document.revert(cancellation);
-  // }
-
-  // public backupCustomDocument(document: SandboxDocument, context: vscode.CustomDocumentBackupContext, cancellation: vscode.CancellationToken): Thenable<vscode.CustomDocumentBackup> {
-  // 	return document.backup(context.destination, cancellation);
-  // }
-
-  //#endregion
-
-  /**
-   * Get the static HTML used for in our editor's webviews.
-   */
+  // Get the static HTML used for in our editor's webviews.
   private getHtmlForWebview(webview: vscode.Webview): string {
     const scriptUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this.context.extensionUri, "dist", "webview.js")
@@ -260,38 +143,14 @@ export class SandboxPreviewProvider
       </body>
       </html>`;
   }
+}
 
-  private _requestId = 1;
-  private readonly _callbacks = new Map<number, (response: any) => void>();
-
-  private postMessageWithResponse<R = unknown>(
-    panel: vscode.WebviewPanel,
-    type: string,
-    body: any
-  ): Promise<R> {
-    const requestId = this._requestId++;
-    const p = new Promise<R>((resolve) =>
-      this._callbacks.set(requestId, resolve)
-    );
-    panel.webview.postMessage({ type, requestId, body });
-    return p;
+function getNonce() {
+  let text = "";
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < 32; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
-
-  private postMessage(
-    panel: vscode.WebviewPanel,
-    type: string,
-    body: any
-  ): void {
-    panel.webview.postMessage({ type, body });
-  }
-
-  private onMessage(document: SandboxDocument, message: any) {
-    switch (message.type) {
-      case "response": {
-        const callback = this._callbacks.get(message.requestId);
-        callback?.(message.body);
-        return;
-      }
-    }
-  }
+  return text;
 }
