@@ -10,28 +10,10 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCustomEditor:babylonjs.sandbox.preview",
-		"onCommand:babylon.sandbox.showPreview"
+		"onCustomEditor:babylonjs.sandbox.preview"
 	],
 	"main": "./dist/extension.js",
-	"// main": "./out/extension.js",
 	"contributes": {
-		"commands": [
-			{
-				"command": "babylonjs.sandbox.showPreview",
-				"title": "Open Babylon Sandbox Preview",
-				"category": "babylon.js"
-			}
-		],
-		"menus": {
-			"explorer/context": [
-				{
-					"command": "babylonjs.sandbox.showPreview",
-					"when": "true",
-					"group": "navigation"
-				}
-			]
-		},
 		"customEditors": [
 			{
 				"viewType": "babylonjs.sandbox.preview",
