@@ -1,25 +1,5 @@
 {
 	"compilerOptions": {
-		// https://doc.babylonjs.com/divingDeeper/developWithBjs/npmSupport
-		// "target": "es5",
-		// "module": "commonjs",
-		// "noResolve": false,
-		// "noImplicitAny": false,
-		// "removeComments": true,
-		// "preserveConstEnums": true,
-		// "experimentalDecorators": true,
-		// "isolatedModules": false,
-		// "lib": [
-		// 	"dom",
-		// 	"es2015.promise",
-		// 	"es5"
-		// ],
-		// "declaration": true,
-		// https://doc.babylonjs.com/divingDeeper/developWithBjs/treeShaking
-		// "module": "esNext",
-		// "target": "es6",
-		// "moduleResolution": "node",
-		// Original
 		"jsx": "react",
 		"module": "commonjs",
 		"target": "ES2020",
