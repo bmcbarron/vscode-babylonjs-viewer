@@ -6,6 +6,10 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(SandboxPreviewProvider.register(context));
 }
 
+export function deactivate() {
+  console.log("babylonjs.sandbox.preview extension is inactive.");
+}
+
 // https://github.com/rebornix/vscode-webview-react/tree/master/ext-src
 // https://webpack.js.org/concepts/entry-points/
 // https://doc.babylonjs.com/divingDeeper/developWithBjs/treeShaking
