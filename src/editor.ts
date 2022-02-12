@@ -166,7 +166,6 @@ export class SandboxPreviewProvider
           const uri = webviewPanel.webview
             .asWebviewUri(document.uri)
             .toString();
-          console.log(`init editable:${editable} uri:${uri}`);
           this.postMessage(webviewPanel, "init", { uri, editable });
         }
       }
@@ -208,23 +207,21 @@ export class SandboxPreviewProvider
       vscode.Uri.joinPath(this.context.extensionUri, "dist", "webview.css")
     );
 
-    // Use a nonce to identify the inline elements which are allowed.
+    // Content Security Policy configuration.
     const nonce = getNonce();
-    console.log(`extensionUri: ${this.context.extensionUri}`);
-    console.log(`scriptUri: ${scriptUri}`);
-
     const cspTypekit = "https://*.typekit.net";
+    const cspBabylon = "https://*.babylonjs.com";
 
     // This html template is a hybrid of sandbox/public/index.html and
     // https://github.com/microsoft/vscode-extension-samples/blob/main/custom-editor-sample/src/pawDrawEditor.ts
     // TODO: We are currently more lax than we'd like on C-S-P, with img-src data: and style-src 'unsafe-inline'.
-    // style-src nonce works but Babylon uses dynamic styles in a few places.
+    // style-src 'nonce-${nonce}' works but Babylon uses dynamic styles in a variety of places.
     return /* html */ `
       <!DOCTYPE html>
       <html xmlns="http://www.w3.org/1999/xhtml">
       <head lang="en">
         <title>Babylon.js Sandbox - View glTF, glb, obj and babylon files</title>
-        <meta http-equiv="Content-Security-Policy" content="default-src ${webview.cspSource} 'nonce-${nonce}'; img-src ${webview.cspSource} blob: data:; style-src ${webview.cspSource} ${cspTypekit} 'nonce-${nonce}'; font-src ${cspTypekit};">
+        <meta http-equiv="Content-Security-Policy" content="default-src ${webview.cspSource} ${cspBabylon} 'nonce-${nonce}'; img-src ${webview.cspSource} ${cspBabylon} blob: data:; style-src ${webview.cspSource} ${cspTypekit} 'unsafe-inline'; font-src ${cspTypekit};">
         <meta name="description" content="Viewer for glTF, glb, obj and babylon files powered by Babylon.js" />
         <meta name="keywords" content="Babylon.js, Babylon, BabylonJS, glTF, glb, obj, viewer, online viewer, 3D model viewer, 3D, webgl" />
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
@@ -245,6 +242,7 @@ export class SandboxPreviewProvider
             overflow: hidden;
           }
           /* Workaround for disallowed dynamic styling of loadingScreen.js */
+          /* Not needed when style-src 'unsafe-inline' is active.
           @-webkit-keyframes spin1 {
             0% { -webkit-transform: rotate(0deg); }
             100% { -webkit-transform: rotate(360deg); }
@@ -253,7 +251,7 @@ export class SandboxPreviewProvider
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
           }
-
+          */
         </style>
       </head>
       <body>

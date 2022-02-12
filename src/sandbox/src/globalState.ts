@@ -2,6 +2,7 @@ import { FilesInput } from "@babylonjs/core/Misc/filesInput";
 import { Observable } from "@babylonjs/core/Misc/observable";
 import { Scene } from "@babylonjs/core/scene";
 import "@babylonjs/core/Debug/debugLayer";
+import "@babylonjs/inspector";
 import { IGLTFLoaderExtension } from "@babylonjs/loaders/glTF/glTFFileLoader";
 
 export class GlobalState {

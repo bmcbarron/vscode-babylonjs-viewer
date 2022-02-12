@@ -11,10 +11,8 @@ if (!hostElement) {
   throw new Error("Missing host-element");
 }
 
-console.log("registering listener");
 window.addEventListener("message", (event) => {
   const message = event.data;
-  console.log(`got message ${JSON.stringify(message)}`);
   switch (message.type) {
     case "init":
       const assetUrl = message.body.uri;

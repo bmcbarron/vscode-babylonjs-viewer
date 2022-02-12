@@ -40,6 +40,15 @@
 				"selector": [
 					{
 						"filenamePattern": "*.babylon"
+					},
+					{
+						"filenamePattern": "*.gltf"
+					},
+					{
+						"filenamePattern": "*.glb"
+					},
+					{
+						"filenamePattern": "*.obj"
 					}
 				]
 			}
