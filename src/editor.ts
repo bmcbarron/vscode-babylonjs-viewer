@@ -217,6 +217,8 @@ export class SandboxPreviewProvider
 
     // This html template is a hybrid of sandbox/public/index.html and
     // https://github.com/microsoft/vscode-extension-samples/blob/main/custom-editor-sample/src/pawDrawEditor.ts
+    // TODO: We are currently more lax than we'd like on C-S-P, with img-src data: and style-src 'unsafe-inline'.
+    // style-src nonce works but Babylon uses dynamic styles in a few places.
     return /* html */ `
       <!DOCTYPE html>
       <html xmlns="http://www.w3.org/1999/xhtml">
@@ -242,6 +244,16 @@ export class SandboxPreviewProvider
             margin: 0;
             overflow: hidden;
           }
+          /* Workaround for disallowed dynamic styling of loadingScreen.js */
+          @-webkit-keyframes spin1 {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+          }
+          @keyframes spin1 {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+
         </style>
       </head>
       <body>

@@ -11,20 +11,27 @@ const config = {
   target: "webworker",
   entry: {
     // The entry point of this extension.
-    extension: "./src/extension.ts",
+    extension: {
+      import: "./src/extension.ts",
+      library: {
+        type: "commonjs2",
+      },
+    },
     // The entry point of the webview.
     webview: {
-      filename: "webview.js",
       import: "./src/webview.ts",
+      library: {
+        name: "SandboxWebview",
+        type: "var",
+      },
     },
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "extension.js",
-    libraryTarget: "commonjs2",
+    filename: "[name].js",
     devtoolModuleFilenameTemplate: "../[resource-path]",
   },
-  devtool: "source-map",
+  devtool: "inline-source-map",
   externals: {
     // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot
     // be webpack'ed

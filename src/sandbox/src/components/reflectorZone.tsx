@@ -1,4 +1,6 @@
 import { Engine } from "@babylonjs/core/Engines/engine";
+import "@babylonjs/core/Loading/loadingScreen";
+import "@babylonjs/core/Loading/Plugins/babylonFileLoader";
 import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";
 import { Logger } from "@babylonjs/core/Misc/logger";
 import { StringTools } from "@babylonjs/core/Misc/stringTools";
