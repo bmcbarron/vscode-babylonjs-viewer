@@ -11,9 +11,11 @@ import { Texture } from "@babylonjs/core/Materials/Textures/texture";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import { CreatePlane } from "@babylonjs/core/Meshes/Builders/planeBuilder";
 import { FilesInput } from "@babylonjs/core/Misc/filesInput";
+import { Observable, Observer } from "@babylonjs/core/Misc/observable";
 import { StringTools } from "@babylonjs/core/Misc/stringTools";
 import { Tools } from "@babylonjs/core/Misc/tools";
 import { Scene } from "@babylonjs/core/scene";
+import { Nullable } from "@babylonjs/core/types";
 import {
   GLTFFileLoader,
   IGLTFLoaderExtension,
@@ -48,10 +50,14 @@ interface IRenderingZoneProps {
 }
 
 export class RenderingZone extends React.Component<IRenderingZoneProps> {
+  public static onNewAsset = new Observable<string>();
+
   private _currentPluginName?: string;
   private _engine!: Engine;
   private _scene!: Scene;
   private _canvas!: HTMLCanvasElement;
+  private _unsub: Nullable<Observer<string>> = null;
+  private _assetUri?: string;
 
   public constructor(props: IRenderingZoneProps) {
     super(props);
@@ -96,6 +102,10 @@ export class RenderingZone extends React.Component<IRenderingZoneProps> {
     });
 
     this.loadAsset();
+    this._unsub = RenderingZone.onNewAsset.add((assetUrl) => {
+      this._assetUri = assetUrl;
+      this.loadAsset();
+    });
 
     // File inputs
     let filesInput = new FilesInput(
@@ -188,9 +198,7 @@ export class RenderingZone extends React.Component<IRenderingZoneProps> {
         (event.target as HTMLElement).nodeName !== "INPUT" &&
         this._scene
       ) {
-        if (this.props.assetUrl) {
-          this.loadAssetFromUrl();
-        } else {
+        if (!this.loadAsset()) {
           filesInput.reload();
         }
       }
@@ -378,19 +386,20 @@ export class RenderingZone extends React.Component<IRenderingZoneProps> {
     return scene;
   }
 
-  loadAssetFromUrl() {
-    const assetUrl = this.props.assetUrl!;
+  loadAssetFromUrl(assetUrl: string) {
     const rootUrl = Tools.GetFolderPath(assetUrl);
     const fileName = Tools.GetFilename(assetUrl);
 
     this._engine.clearInternalTexturesCache();
 
+    console.log(`rootUrl: ${rootUrl} fileName: ${fileName}`);
     const promise = isTextureAsset(assetUrl)
       ? Promise.resolve(this.loadTextureAsset(assetUrl))
       : SceneLoader.LoadAsync(rootUrl, fileName, this._engine);
 
     promise
       .then((scene) => {
+        console.log("scene loaded");
         if (this._scene) {
           this._scene.dispose();
         }
@@ -413,10 +422,14 @@ export class RenderingZone extends React.Component<IRenderingZoneProps> {
   }
 
   loadAsset() {
-    if (this.props.assetUrl) {
-      this.loadAssetFromUrl();
-      return;
+    // HACK: This only works b/c we never clear _assetUri. Otherwise we'd revert to the original
+    // uri.
+    const assetUrl = this._assetUri ?? this.props.assetUrl;
+    if (assetUrl) {
+      this.loadAssetFromUrl(assetUrl);
+      return true;
     }
+    return false;
   }
 
   componentDidMount() {
@@ -454,7 +467,14 @@ export class RenderingZone extends React.Component<IRenderingZoneProps> {
       }
     });
 
+    console.log("renderingZone.componentDidMount");
     this.initEngine();
+  }
+
+  componentWillUnmount() {
+    if (this._unsub) {
+      RenderingZone.onNewAsset.remove(this._unsub);
+    }
   }
 
   shouldComponentUpdate(nextProps: IRenderingZoneProps) {
@@ -466,6 +486,7 @@ export class RenderingZone extends React.Component<IRenderingZoneProps> {
   }
 
   public render() {
+    console.log("renderingZone.render");
     return (
       <div id="canvasZone" className={this.props.expanded ? "expanded" : ""}>
         <canvas

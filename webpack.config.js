@@ -3,6 +3,8 @@
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
 /**@type {import('webpack').Configuration}*/
@@ -17,11 +19,19 @@ const config = {
         type: "commonjs2",
       },
     },
-    // The entry point of the webview.
-    webview: {
-      import: "./src/webview.ts",
+    // The entry point of the asset viewer webview.
+    webviewViewer: {
+      import: "./src/webviewViewer.ts",
       library: {
-        name: "SandboxWebview",
+        name: "AssetViewer",
+        type: "var",
+      },
+    },
+    // The entry point of the asset editor webview.
+    webviewEditor: {
+      import: "./src/webviewEditor.ts",
+      library: {
+        name: "AssetEditor",
         type: "var",
       },
     },
@@ -73,6 +83,9 @@ const config = {
       },
     ],
   },
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [
+    new MiniCssExtractPlugin(),
+    new CopyWebpackPlugin({ patterns: [{ from: "static" }] }),
+  ],
 };
 module.exports = config;

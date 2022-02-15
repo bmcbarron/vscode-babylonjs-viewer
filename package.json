@@ -9,15 +9,36 @@
 	"categories": [
 		"Other"
 	],
-	"activationEvents": [
-		"onCustomEditor:babylonjs.sandbox.preview"
-	],
 	"main": "./dist/extension.js",
+	"activationEvents": [
+		"onView:babylonjs.assetViewer",
+		"onCommand:babylonjs.assetViewer.show",
+		"onCommand:babylonjs.assetViewer.open",
+		"onCustomEditor:babylonjs.assetEditor"
+	],
 	"contributes": {
+		"viewsContainers": {
+			"panel": [
+				{
+					"id": "babylonjs",
+					"title": "Babylon.js",
+					"icon": "./dist/babylonjs_logo.svg"
+				}
+			]
+		},
+		"views": {
+			"babylonjs": [
+				{
+					"type": "webview",
+					"id": "babylonjs.assetViewer",
+					"name": "Asset Viewer"
+				}
+			]
+		},
 		"customEditors": [
 			{
-				"viewType": "babylonjs.sandbox.preview",
-				"displayName": "Babylon Sandbox Preview",
+				"viewType": "babylonjs.assetEditor",
+				"displayName": "Babylon.js Asset Editor",
 				"priority": "default",
 				"selector": [
 					{
@@ -33,6 +54,48 @@
 						"filenamePattern": "*.obj"
 					}
 				]
+			}
+		],
+		"commands": [
+			{
+				"command": "babylonjs.assetViewer.show",
+				"title": "Show the Babylon.js Viewer",
+				"category": "Babylon.js"
+			},
+			{
+				"command": "babylonjs.assetViewer.open",
+				"title": "Open in the Asset Viewer",
+				"category": "Babylon.js"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"when": "resourceFilename =~ /\\.(babylon|gltf|glb|obj)$/",
+					"command": "babylonjs.assetViewer.open",
+					"group": "navigation"
+				}
+			],
+			"editor/title/context": [
+				{
+					"when": "resourceFilename =~ /\\.(babylon|gltf|glb|obj)$/",
+					"command": "babylonjs.assetViewer.open",
+					"group": "navigation"
+				}
+			]
+		},
+		"languages": [
+			{
+				"id": "json",
+				"extensions": [
+					".babylon"
+				]
+			}
+		],
+		"jsonValidation": [
+			{
+				"fileMatch": "*.babylon",
+				"url": "./dist/babylon_schema.json"
 			}
 		]
 	},
@@ -54,6 +117,7 @@
 		"@types/mocha": "^9.0.0",
 		"@types/node": "14.x",
 		"@types/vscode": "^1.64.0",
+		"@types/vscode-webview": "^1.57.0",
 		"@typescript-eslint/eslint-plugin": "^5.9.1",
 		"@typescript-eslint/parser": "^5.9.1",
 		"@vscode/test-electron": "^2.0.3",
@@ -79,6 +143,7 @@
 		"@babylonjs/loaders": "^5.0.0-beta.6",
 		"@babylonjs/materials": "^5.0.0-beta.6",
 		"@babylonjs/serializers": "^5.0.0-beta.6",
+		"copy-webpack-plugin": "^10.2.4",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2"
 	}

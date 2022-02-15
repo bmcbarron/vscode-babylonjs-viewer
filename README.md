@@ -1,3 +1,9 @@
+# TODO bpm
+
+Convert to a long-lived viewer.
+https://code.visualstudio.com/api/extension-guides/webview
+
+
 # bjs-sandbox README
 
 This is the README for your extension "bjs-sandbox". After writing up a brief description, we recommend including the following sections.

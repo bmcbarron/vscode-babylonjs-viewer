@@ -205,11 +205,13 @@ export class Sandbox extends React.Component<
   }
 
   componentDidUpdate() {
+    console.log('componentDidUpdate');
     this._assetUrl = undefined;
     this._cameraPosition = undefined;
   }
 
   public render() {
+    console.log(`renderzone: ${this._assetUrl ?? this.props.assetUrl}`);
     return (
       <div id="root">
         <span>
@@ -268,8 +270,13 @@ export class Sandbox extends React.Component<
   private static _sceneLoadedDeferred = new Deferred<Scene>();
 
   public static Show(hostElement: HTMLElement, props: ISandboxProps): void {
+    // TODO: Much better lifecycle tracking for DOM vs engine.
     const sandbox = React.createElement(Sandbox, props);
     ReactDOM.render(sandbox, hostElement);
+  }
+
+  public static Update(assetUrl: string) {
+    RenderingZone.onNewAsset.notifyObservers(assetUrl);
   }
 
   public static CaptureScreenshotAsync(

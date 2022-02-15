@@ -1,0 +1,229 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": ".babylon file format",
+  "description": "A declarative scene description for babylon.js.",
+  "type": "object",
+  "required": [
+    "autoClear",
+    "clearColor",
+    "ambientColor",
+    "cameras",
+    "activeCamera",
+    "lights",
+    "materials",
+    "geometries",
+    "meshes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "autoClear": {
+      "type": "boolean"
+    },
+    "clearColor": {
+      "$ref": "#/$defs/Color3"
+    },
+    "ambientColor": {
+      "$ref": "#/$defs/Color3"
+    },
+    "gravity": {
+      "$ref": "#/$defs/Vector3"
+    },
+    "cameras": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Camera"
+      }
+    },
+    "activeCamera": {
+      "type": "string"
+    },
+    "lights": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Light"
+      }
+    },
+    "reflectionProbes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ReflectionProbe"
+      }
+    },
+    "materials": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Material"
+      }
+    },
+    "geometries": {
+      "$ref": "#/$defs/Geometries"
+    },
+    "meshes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Mesh"
+      }
+    },
+    "multiMaterials": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/MultiMaterial"
+      }
+    },
+    "shadowGenerators": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ShadowGenerator"
+      }
+    },
+    "skeletons": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Skeleton"
+      }
+    },
+    "particleSystems": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ParticleSystem"
+      }
+    },
+    "lensFlareSystems": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/LensFlareSystem"
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Action"
+      }
+    },
+    "sounds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Sound"
+      }
+    },
+    "collisionsEnabled": {
+      "type": "boolean"
+    },
+    "physicsEnabled": {
+      "type": "boolean"
+    },
+    "physicsGravity": {
+      "$ref": "#/$defs/Vector3"
+    },
+    "physicsEngine": {
+      "type": "string",
+      "enum": [
+        "oimo",
+        "cannon"
+      ]
+    },
+    "animations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Animation"
+      }
+    },
+    "autoAnimate": {
+      "type": "boolean"
+    },
+    "autoAnimateFrom": {
+      "type": "integer"
+    },
+    "autoAnimateTo": {
+      "type": "integer"
+    },
+    "autoAnimateLoop": {
+      "type": "boolean"
+    },
+    "autoAnimateSpeed": {
+      "type": "number"
+    }
+  },
+  "$defs": {
+    "Color3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "number"
+      }
+    },
+    "Vector3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "number"
+      }
+    },
+    "Vector4": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "number"
+      }
+    },
+    "Camera": {
+      "type": "object"
+    },
+    "Light": {
+      "type": "object"
+    },
+    "ReflectionProbe": {
+      "type": "object"
+    },
+    "Material": {
+      "type": "object"
+    },
+    "Geometries": {
+      "type": "object",
+      "properties": {
+        "vertexData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VertexData"
+          }
+        }
+      }
+    },
+    "VertexData": {
+      "type": "object"
+    },
+    "Mesh": {
+      "type": "object"
+    },
+    "MultiMaterial": {
+      "type": "object"
+    },
+    "ShadowGenerator": {
+      "type": "object"
+    },
+    "Skeleton": {
+      "type": "object"
+    },
+    "ParticleSystem": {
+      "type": "object"
+    },
+    "LensFlareSystem": {
+      "type": "object"
+    },
+    "Action": {
+      "type": "object"
+    },
+    "Sound": {
+      "type": "object"
+    },
+    "Animation": {
+      "type": "object"
+    }
+  }
+}
