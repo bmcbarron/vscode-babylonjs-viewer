@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
+import { getExtension, textExtensions } from "./common";
 import { WebviewHost } from "./webviewHost";
+import { commandOpen, commandFocus, shortTitle as viewerTitle } from "./viewer";
 
 const editorId = "babylonjs.assetEditor";
 const title = "Babylon.js Asset Editor";
@@ -9,6 +11,10 @@ const description =
 class AssetDocument implements vscode.CustomDocument {
   static async create(uri: vscode.Uri): Promise<AssetDocument> {
     return new AssetDocument(uri);
+  }
+
+  get extension() {
+    return getExtension(this.uri);
   }
 
   private constructor(readonly uri: vscode.Uri) {}
@@ -36,7 +42,9 @@ class AssetPreviewProvider
     webviewPanel: vscode.WebviewPanel,
     _token: vscode.CancellationToken
   ): Promise<void> {
-    const _host = new WebviewHost({
+    const isText = textExtensions.includes(document.extension);
+
+    const host = new WebviewHost({
       webview: webviewPanel.webview,
       title,
       description,
@@ -45,14 +53,36 @@ class AssetPreviewProvider
       },
       uriRoot: this.context.extensionUri,
       styleFilenames: ["reset.css", "vscode.css", "editor.css"],
-      scriptFilenames: ["webviewerEditor.js"],
+      scriptFilenames: ["webviewEditor.js"],
       content: /* html */ `
-        <div class="notes">
-        <div class="text">This file bla blahafasd alsfalsdfadsf</div>
-        <div class="add-button">
-           <button>Scratch!</button>
-        </div>
+      <div class="section">
+        <div class="text">Files with extension <span class="filename">${
+          document.extension
+        }</span>
+        can be visualized by the <a href="https://babylonjs.com">Babylon.js</a>
+        ${viewerTitle.toLocaleLowerCase()}.</div>
+        <button id="open-in-viewer">Open in the ${viewerTitle}</button>
+      </div>
+      <div class="section${isText ? "" : " hidden"}">
+        <div class="text">It can also be opened in the editor.</div>
+        <button id="open-as-text">Open as a text document</button>
+      </div>
       `,
+    });
+
+    host.on("open-in-viewer", () => {
+      vscode.commands.executeCommand(commandFocus).then(() => {
+        vscode.commands.executeCommand(commandOpen, document.uri);
+      });
+    });
+
+    host.on("open-as-text", () => {
+      vscode.commands.executeCommand(
+        "vscode.openWith",
+        document.uri,
+        "default"
+      );
+      webviewPanel.dispose();
     });
   }
 }

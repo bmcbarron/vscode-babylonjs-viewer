@@ -1,12 +1,14 @@
 import * as vscode from "vscode";
+import { getExtension, supportedExtensions } from "./common";
 import { WebviewHost } from "./webviewHost";
 
-const viewId = "babylonjs.assetViewer";
-const title = "Babylon.js Asset Viewer";
-const description = "Renders glTF, glb, obj, and babylon assets";
-const commandShow = "babylonjs.assetViewer.show";
-const commandOpen = "babylonjs.assetViewer.open";
-const supportedExtensions = [".babylon", ".gltf", ".glb", ".obj"];
+export const viewId = "babylonjs.assetViewer";
+export const shortTitle = "Asset Viewer";
+export const title = `Babylon.js ${shortTitle}`;
+export const description = "Renders glTF, glb, obj, and babylon assets";
+export const commandShow = `${viewId}.show`;
+export const commandOpen = `${viewId}.open`;
+export const commandFocus = `${viewId}.focus`;
 
 class AssetViewerProvider implements vscode.WebviewViewProvider {
   private _view?: vscode.WebviewView;
@@ -64,14 +66,20 @@ class AssetViewerProvider implements vscode.WebviewViewProvider {
 
   public show() {
     console.log(`AssetViewProvider.show()`);
-    this._view?.show(true);
+    if (this._view) {
+      this._view.show(true);
+    } else {
+      console.warn(`${title} is not available`);
+    }
   }
 
   public open(uri: vscode.Uri) {
     console.log(`AssetViewProvider.open(${uri})`);
-    if (this._host) {
-      this._setAssetUri(uri);
-      this._view?.show(true);
+    this._setAssetUri(uri);
+    if (this._view) {
+      this._view.show(true);
+    } else {
+      console.warn(`${title} is not available`);
     }
   }
 
@@ -81,6 +89,8 @@ class AssetViewerProvider implements vscode.WebviewViewProvider {
       if (this._isReady) {
         this._postAssetUri();
       }
+    } else {
+      console.log(`ignoring matching ${uri}`);
     }
   }
 
@@ -105,15 +115,6 @@ export function register(
 ): vscode.Disposable[] {
   const provider = new AssetViewerProvider(context);
 
-  const checkUri = (uri?: vscode.Uri) => {
-    const filename = uri ? `${uri}` : "";
-    const extIndex = filename.lastIndexOf(".");
-    const extension = extIndex >= 0 ? filename.slice(extIndex) : "";
-    if (supportedExtensions.includes(extension)) {
-      provider.open(uri!);
-    }
-  };
-
   const result: vscode.Disposable[] = [];
   result.push(
     vscode.window.registerWebviewViewProvider(viewId, provider, {
@@ -128,9 +129,13 @@ export function register(
   );
 
   result.push(
-    vscode.commands.registerCommand(commandOpen, (value) => {
-      if (value instanceof vscode.Uri) {
-        checkUri(value);
+    vscode.commands.registerCommand(commandOpen, (uri) => {
+      console.log(`opening in viewer ${uri}`);
+      if (
+        uri instanceof vscode.Uri &&
+        supportedExtensions.includes(getExtension(uri))
+      ) {
+        provider.open(uri);
       }
     })
   );
