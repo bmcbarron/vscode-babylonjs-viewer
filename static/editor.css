@@ -66,3 +66,8 @@ td:nth-child(1) {
 tr:hover td {
   background-color: var(--vscode-list-activeSelectionBackground);
 }
+
+.icon i {
+  position: relative;
+  top: 3px;
+}

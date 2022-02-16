@@ -19,13 +19,17 @@ window.addEventListener("message", (event) => {
   if (type !== "info") {
     return;
   }
-  const section = document.getElementById("info-table");
-  if (!section) {
+  const info = body["info"] as Array<[string, string]>;
+  const final = body["final"] as boolean;
+
+  const table = document.getElementById("info-table") as HTMLTableElement;
+  if (!table) {
     console.warn("Missing info-table");
     return;
   }
-  const info = body["info"] as Array<[string, string]>;
-  const table = document.createElement("table");
+  while (table.lastChild) {
+    table.lastChild?.remove();
+  }
 
   const header = document.createElement("tr");
   const khdr = document.createElement("th");
@@ -44,7 +48,16 @@ window.addEventListener("message", (event) => {
     row.append(kcol, vcol);
     table.append(row);
   }
-  section?.appendChild(table);
+
+  if (!final) {
+    const row = document.createElement("tr");
+    const kcol = document.createElement("td");
+    kcol.className = "icon";
+    kcol.innerHTML = /* html */ `<i class="codicon codicon-loading codicon-modifier-spin"></i>`;
+    const vcol = document.createElement("td");
+    row.append(kcol, vcol);
+    table.append(row);
+  }
 });
 
 vscode.postMessage({ type: "ready" });

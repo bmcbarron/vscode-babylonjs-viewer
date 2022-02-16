@@ -13,8 +13,8 @@ export class WebviewHost {
       readonly description: string;
       readonly contentSecurityPolicies: Record<string, string>;
       readonly uriRoot: vscode.Uri;
-      readonly styleFilenames: string[];
-      readonly scriptFilenames: string[];
+      readonly styleFilenames: Array<string | vscode.Uri>;
+      readonly scriptFilenames: Array<string | vscode.Uri>;
       readonly content: string;
     }
   ) {
