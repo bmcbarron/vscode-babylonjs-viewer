@@ -1,14 +1,18 @@
+:root {
+  background-color: var(--vscode-welcomePage-background);
+}
+
 .hidden {
   display: none;
 }
 
 .section {
+  margin-top: 1em;
   margin-bottom: 1em;
 }
 
 .text {
-  margin-bottom: 0.6em;
-  color: var(--vscode-descriptionForeground);
+  margin-bottom: 1em;
 }
 
 .filename {
@@ -16,5 +20,49 @@
 }
 
 button {
+  margin: auto;
+  display: block;
   max-width: 300px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--vscode-sideBar-background);
+  cursor: default;
+  margin-top: 2em;
+}
+
+tr {
+  line-height: 2em;
+}
+
+tr:nth-child(odd) {
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+tr:nth-child(1) {
+  background-color: var(--vscode-sideBarSectionHeader-background);
+  color: var(--vscode-sideBarSectionHeader-foreground);
+  text-transform: uppercase;
+  font-size: smaller;
+}
+
+th:nth-child(1), td:nth-child(1) {
+  border-right: 1px solid var(--vscode-list-deemphasizedForeground);
+  text-align: right;
+  padding-right: 0.5em;
+}
+
+th:nth-child(2), td:nth-child(2) {
+  text-align: left;;
+  padding-left: 0.5em;
+}
+
+td:nth-child(1) {
+  color: var(--vscode-textPreformat-foreground);
+}
+
+tr:hover td {
+  background-color: var(--vscode-list-activeSelectionBackground);
 }

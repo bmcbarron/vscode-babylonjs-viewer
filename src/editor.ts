@@ -8,6 +8,8 @@ const title = "Babylon.js Asset Editor";
 const description =
   "Summarizes the contents of glTF, glb, obj, and babylon assets";
 
+type InfoTable = Array<[string, string]>;
+
 class AssetDocument implements vscode.CustomDocument {
   static async create(uri: vscode.Uri): Promise<AssetDocument> {
     return new AssetDocument(uri);
@@ -18,6 +20,14 @@ class AssetDocument implements vscode.CustomDocument {
   }
 
   private constructor(readonly uri: vscode.Uri) {}
+
+  buildInfoTable(): Promise<InfoTable> {
+    const results: InfoTable = [];
+    for (let i = 0; i < 10; ++i) {
+      results.push(["filename", this.uri.fsPath]);
+    }
+    return Promise.resolve(results);
+  }
 
   dispose(): void {
     console.log(`AssetDocument disposed: ${this.uri}`);
@@ -64,10 +74,18 @@ class AssetPreviewProvider
         <button id="open-in-viewer">Open in the ${viewerTitle}</button>
       </div>
       <div class="section${isText ? "" : " hidden"}">
-        <div class="text">It can also be opened in the editor.</div>
+        <div class="text">They can also be opened in the text editor.</div>
         <button id="open-as-text">Open as a text document</button>
+        <!-- TODO: Checkbox: Open as text by default -->
       </div>
+      <div class="section" id="info-table"></div>
       `,
+    });
+
+    host.on("ready", () => {
+      document.buildInfoTable().then((info) => {
+        host.post("info", { info });
+      });
     });
 
     host.on("open-in-viewer", () => {
@@ -82,6 +100,8 @@ class AssetPreviewProvider
         document.uri,
         "default"
       );
+      // TODO: There is a command to "reopen" an editor with a different format. Figure out
+      // how to use that instead, to eliminate flicker.
       webviewPanel.dispose();
     });
   }

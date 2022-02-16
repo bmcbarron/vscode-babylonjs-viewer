@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 
+// TODO: Textures
 export const textExtensions = [".babylon", ".gltf", ".obj"];
 export const binaryExtensions = [".glb"];
 export const supportedExtensions = [...textExtensions, ...binaryExtensions];
