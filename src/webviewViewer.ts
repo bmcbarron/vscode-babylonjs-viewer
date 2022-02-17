@@ -12,8 +12,6 @@ window.addEventListener("message", (event) => {
   switch (message.type) {
     case "init":
       const assetUrl = message.body.uri;
-      const editable = message.body.editable;
-      console.log(`init(assetUrl:${assetUrl} editable:${editable})`);
       if (!didInit) {
         Sandbox.Show(hostElement, { assetUrl });
         // TODO: Hack
@@ -25,6 +23,5 @@ window.addEventListener("message", (event) => {
   }
 });
 
-console.log("ready");
 const vscode = acquireVsCodeApi();
 vscode.postMessage({ type: "ready" });

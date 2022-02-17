@@ -205,13 +205,11 @@ export class Sandbox extends React.Component<
   }
 
   componentDidUpdate() {
-    console.log('componentDidUpdate');
     this._assetUrl = undefined;
     this._cameraPosition = undefined;
   }
 
   public render() {
-    console.log(`renderzone: ${this._assetUrl ?? this.props.assetUrl}`);
     return (
       <div id="root">
         <span>

@@ -1,7 +1,7 @@
 {
 	"name": "bjs-sandbox",
-	"displayName": "bjs-sandbox",
-	"description": "A viewer of BabylonJS assets using the Sandbox.",
+	"displayName": "Babylon.js Asset Viewer",
+	"description": "An in-engine viewer for BabylonJS assets.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.64.0"
@@ -14,7 +14,7 @@
 		"onView:babylonjs.assetViewer",
 		"onCommand:babylonjs.assetViewer.show",
 		"onCommand:babylonjs.assetViewer.open",
-		"onCustomEditor:babylonjs.assetEditor"
+		"onCustomEditor:babylonjs.assetSummarizer"
 	],
 	"contributes": {
 		"viewsContainers": {
@@ -37,8 +37,8 @@
 		},
 		"customEditors": [
 			{
-				"viewType": "babylonjs.assetEditor",
-				"displayName": "Babylon.js Asset Editor",
+				"viewType": "babylonjs.assetSummarizer",
+				"displayName": "Babylon.js Asset Summarizer",
 				"priority": "default",
 				"selector": [
 					{

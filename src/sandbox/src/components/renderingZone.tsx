@@ -392,14 +392,12 @@ export class RenderingZone extends React.Component<IRenderingZoneProps> {
 
     this._engine.clearInternalTexturesCache();
 
-    console.log(`rootUrl: ${rootUrl} fileName: ${fileName}`);
     const promise = isTextureAsset(assetUrl)
       ? Promise.resolve(this.loadTextureAsset(assetUrl))
       : SceneLoader.LoadAsync(rootUrl, fileName, this._engine);
 
     promise
       .then((scene) => {
-        console.log("scene loaded");
         if (this._scene) {
           this._scene.dispose();
         }
@@ -467,7 +465,6 @@ export class RenderingZone extends React.Component<IRenderingZoneProps> {
       }
     });
 
-    console.log("renderingZone.componentDidMount");
     this.initEngine();
   }
 
@@ -486,7 +483,6 @@ export class RenderingZone extends React.Component<IRenderingZoneProps> {
   }
 
   public render() {
-    console.log("renderingZone.render");
     return (
       <div id="canvasZone" className={this.props.expanded ? "expanded" : ""}>
         <canvas

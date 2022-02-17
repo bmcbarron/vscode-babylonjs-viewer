@@ -47,7 +47,6 @@ export class AssetDocument implements vscode.CustomDocument {
   }
 
   dispose(): void {
-    console.log(`AssetDocument disposed: ${this.uri}`);
     this.disposed_ = true;
   }
 }

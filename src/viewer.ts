@@ -65,7 +65,6 @@ class AssetViewerProvider implements vscode.WebviewViewProvider {
   }
 
   public show() {
-    console.log(`AssetViewProvider.show()`);
     if (this._view) {
       this._view.show(true);
     } else {
@@ -74,7 +73,6 @@ class AssetViewerProvider implements vscode.WebviewViewProvider {
   }
 
   public open(uri: vscode.Uri) {
-    console.log(`AssetViewProvider.open(${uri})`);
     this._setAssetUri(uri);
     if (this._view) {
       this._view.show(true);
@@ -84,28 +82,24 @@ class AssetViewerProvider implements vscode.WebviewViewProvider {
   }
 
   private _setAssetUri(uri: vscode.Uri) {
-    if (`${uri}` !== `${this._assetUri}`) {
-      this._assetUri = uri;
-      if (this._isReady) {
-        this._postAssetUri();
-      }
-    } else {
-      console.log(`ignoring matching ${uri}`);
+    if (`${uri}` === `${this._assetUri}`) {
+      return;
+    }
+    this._assetUri = uri;
+    if (this._isReady) {
+      this._postAssetUri();
     }
   }
 
   private _postAssetUri() {
-    console.log(`_updateAssetUri: ${this._assetUri}`);
+    if (!this._host) {
+      return;
+    }
     if (!this._assetUri || this._assetUri.scheme === "untitled") {
-      console.log("untitled");
-      this._host?.post("init");
+      this._host.post("init");
     } else {
-      const editable = vscode.workspace.fs.isWritableFileSystem(
-        this._assetUri.scheme
-      );
-      const uri = this._host?.asUri(this._assetUri);
-      console.log(`uri: ${uri}`);
-      this._host?.post("init", { uri, editable });
+      const uri = this._host.asUri(this._assetUri);
+      this._host.post("init", { uri });
     }
   }
 }
@@ -130,7 +124,6 @@ export function register(
 
   result.push(
     vscode.commands.registerCommand(commandOpen, (uri) => {
-      console.log(`opening in viewer ${uri}`);
       if (
         uri instanceof vscode.Uri &&
         supportedExtensions.includes(getExtension(uri))
@@ -139,15 +132,5 @@ export function register(
       }
     })
   );
-
-  // // TODO: Change this to use the Tab model API, which is proposed and nearing release.
-  // // https://github.com/microsoft/vscode/issues/133532
-  // result.push(vscode.window.onDidChangeActiveTextEditor(
-  //   (editor) => {
-  //     console.log(`onDidChangeActiveTextEditor(${editor?.document.uri})`);
-  //     checkUri(editor?.document.uri);
-  //   }
-  // ));
-
   return result;
 }

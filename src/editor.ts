@@ -4,9 +4,16 @@ import { scanAssetInfo } from "./assetScanner";
 import { textExtensions } from "./common";
 import { commandFocus, commandOpen, shortTitle as viewerTitle } from "./viewer";
 import { WebviewHost } from "./webviewHost";
-
-const editorId = "babylonjs.assetEditor";
-const title = "Babylon.js Asset Editor";
+// "configurationDefaults": {
+//   "workbench.editorAssociations": {
+//     "*.babylon": "babylonjs.assetSummarizer",
+//     "*.glb": "babylonjs.assetSummarizer",
+//     "*.gltf": "babylonjs.assetSummarizer",
+//     "*.obj": "babylonjs.assetSummarizer"
+//   }
+// },
+const editorId = "babylonjs.assetSummarizer";
+const title = "Babylon.js Asset Summary";
 const description =
   "Summarizes the contents of glTF, glb, obj, and babylon assets";
 
@@ -42,6 +49,14 @@ class AssetPreviewProvider
       )
     );
 
+    const config = vscode.workspace.getConfiguration(
+      "workbench.editorAssociations"
+    );
+    console.log(`${JSON.stringify(config)}`);
+    const defaultEditor = config["*.babylon"];
+    const defaultOpenAsText = defaultEditor === "default";
+    console.log(`${defaultEditor} ${defaultOpenAsText}`);
+
     const host = new WebviewHost({
       webview: panel.webview,
       title,
@@ -59,23 +74,37 @@ class AssetPreviewProvider
       ],
       scriptFilenames: ["webviewEditor.js"],
       content: /* html */ `
-      <div class="section">
-        <div class="text">Files with extension <span class="filename">${
-          doc.extension
-        }</span>
-        can be visualized by the <a href="https://babylonjs.com">Babylon.js</a>
-        ${viewerTitle.toLocaleLowerCase()}.</div>
-        <button id="open-in-viewer">Open in the ${viewerTitle}</button>
-      </div>
-      <div class="section${isText ? "" : " hidden"}">
-        <div class="text">They can also be opened in the text editor.</div>
-        <button id="open-as-text">Open as a text document</button>
-        <!-- TODO: Checkbox: Open as text by default -->
-      </div>
-      <div class="section">
-        <table id="info-table"></table>
+      <div id="viewport">
+        <div class="section">
+          <div class="text">Files with extension <span class="filename">${
+            doc.extension
+          }</span>
+          can be visualized in the <a href="https://babylonjs.com">Babylon.js</a>
+          ${viewerTitle.toLocaleLowerCase()}.</div>
+          <button id="open-in-viewer">Open in the ${viewerTitle}</button>
+        </div>
+        <div class="section${isText ? "" : " hidden"}">
+          <div class="text">
+            They can also be <a id="open-as-text" href="#">opened in the text editor</a>.
+          </div>
+          <input id="default-open-as-text" type="checkbox" ${
+            defaultOpenAsText ? "checked" : ""
+          }>
+          <label for="default-open-as-text">
+            <span class="checkbox"><i class="codicon codicon-check"></i></span><span
+                  class="label">Open as text by default</span>
+          </label>
+        </div>
+        <div class="section">
+          <!-- TODO: Deal with wrapping -->
+          <table id="info-table"></table>
+        </div>
       </div>
       `,
+    });
+
+    panel.onDidChangeViewState(() => {
+      host.post("state", { active: panel.active });
     });
 
     host.on("ready", () => {
@@ -109,6 +138,8 @@ export function register(
   result.push(
     vscode.window.registerCustomEditorProvider(editorId, provider, {
       webviewOptions: { enableFindWidget: true },
+      // TODO: Synchronize InfoTable state across multiple tabs.
+      // supportsMultipleEditorsPerDocument: true
     })
   );
   return result;

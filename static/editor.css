@@ -2,6 +2,64 @@
   background-color: var(--vscode-welcomePage-background);
 }
 
+#viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden scroll;
+  box-sizing: border-box;
+}
+
+#viewport .effect {
+  position: fixed;
+  margin: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+#viewport .effect.border {
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  border: var(--vscode-focusBorder) solid 1px;
+}
+
+#viewport .effect.top {
+  top: 0;
+  height: 0.5em;
+  z-index: 1;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+}
+
+#viewport .effect.bottom {
+  bottom: 0;
+  height: 0.5em;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+}
+
+/* All non-effect children */
+#viewport > *:not(.effect) {
+  margin-left: 1em;
+  margin-right: 1em;
+  pointer-events: auto;
+}
+
+/* First child that is not an effect */
+#viewport > :first-child:not(.effect) {
+  margin-top: 1em;
+} 
+
+/* Last child that is not an effect */
+#viewport > :last-child:not(.effect) {
+  margin-bottom: 1em;
+}
+
 .hidden {
   display: none;
 }
@@ -12,7 +70,7 @@
 }
 
 .text {
-  margin-bottom: 1em;
+  margin-bottom: 0.2em;
 }
 
 .filename {
@@ -20,7 +78,7 @@
 }
 
 button {
-  margin: auto;
+  margin: 1em auto;
   display: block;
   max-width: 300px;
 }
@@ -55,7 +113,7 @@ th:nth-child(1), td:nth-child(1) {
 }
 
 th:nth-child(2), td:nth-child(2) {
-  text-align: left;;
+  text-align: left;
   padding-left: 0.5em;
 }
 
@@ -70,4 +128,32 @@ tr:hover td {
 .icon i {
   position: relative;
   top: 3px;
+}
+
+input[type="checkbox"] {
+  visibility: hidden;
+  position: absolute;
+}
+
+input[type="checkbox"] + label {
+  cursor: pointer;
+}
+
+.checkbox {
+  color: var(--vscode-checkbox-foreground);
+  background-color: var(--vscode-checkbox-background);
+  border-color: var(--vscode-checkbox-border);
+  border-radius: 3px;
+  padding: 1px;
+  margin-right: 0.5em;
+}
+
+.checkbox > i {
+  visibility: hidden;
+  position: relative;
+  top: 3px;
+}
+
+input[type="checkbox"]:checked + label .checkbox > i {
+  visibility: visible;
 }
