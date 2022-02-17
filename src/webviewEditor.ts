@@ -1,10 +1,10 @@
 const vscode = acquireVsCodeApi();
 
-const openInViewer = document.getElementById(
-  "open-in-viewer"
+const renderInViewer = document.getElementById(
+  "render-in-viewer"
 ) as HTMLButtonElement;
-openInViewer.onclick = () => {
-  vscode.postMessage({ type: "open-in-viewer" });
+renderInViewer.onclick = () => {
+  vscode.postMessage({ type: "render-in-viewer" });
 };
 
 const openAsText = document.getElementById("open-as-text") as HTMLAnchorElement;
@@ -17,7 +17,10 @@ const defaultOpenAsText = document.getElementById(
   "default-open-as-text"
 ) as HTMLInputElement;
 defaultOpenAsText.onclick = (e) => {
-  console.log(`defaultOpenAsText: ${defaultOpenAsText.checked}`);
+  vscode.postMessage({
+    type: "update-default-open-as-text",
+    body: { enabled: defaultOpenAsText.checked },
+  });
 };
 
 const viewport = document.getElementById("viewport");

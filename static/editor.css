@@ -10,7 +10,7 @@
   bottom: 0;
   margin: 0;
   padding: 0;
-  overflow: hidden scroll;
+  overflow: hidden auto;
   box-sizing: border-box;
 }
 
@@ -43,30 +43,12 @@
   background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
 }
 
-/* All non-effect children */
-#viewport > *:not(.effect) {
-  margin-left: 1em;
-  margin-right: 1em;
-  pointer-events: auto;
-}
-
-/* First child that is not an effect */
-#viewport > :first-child:not(.effect) {
-  margin-top: 1em;
-} 
-
-/* Last child that is not an effect */
-#viewport > :last-child:not(.effect) {
-  margin-bottom: 1em;
-}
-
 .hidden {
   display: none;
 }
 
 .section {
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin: 1em;
 }
 
 .text {
@@ -88,7 +70,6 @@ table {
   border-collapse: collapse;
   background-color: var(--vscode-sideBar-background);
   cursor: default;
-  margin-top: 2em;
 }
 
 tr {

@@ -2,7 +2,11 @@ import * as vscode from "vscode";
 import { AssetDocument } from "./asset";
 import { scanAssetInfo } from "./assetScanner";
 import { textExtensions } from "./common";
-import { commandFocus, commandOpen, shortTitle as viewerTitle } from "./viewer";
+import {
+  commandFocus,
+  commandRender,
+  shortTitle as viewerTitle,
+} from "./viewer";
 import { WebviewHost } from "./webviewHost";
 // "configurationDefaults": {
 //   "workbench.editorAssociations": {
@@ -13,9 +17,34 @@ import { WebviewHost } from "./webviewHost";
 //   }
 // },
 const editorId = "babylonjs.assetSummarizer";
+const defaultEditorId = "default";
 const title = "Babylon.js Asset Summary";
 const description =
   "Summarizes the contents of glTF, glb, obj, and babylon assets";
+const editorAssociationsConfigKey = "workbench.editorAssociations";
+
+function getCurrentEditor(extension: string) {
+  const pattern = `*${extension}`;
+  const associations = vscode.workspace
+    .getConfiguration()
+    .get<Record<string, string>>(editorAssociationsConfigKey, {});
+  return associations[pattern] ?? editorId;
+}
+
+function updateCurrentEditor(extension: string, id: string) {
+  const config = vscode.workspace.getConfiguration();
+  const pattern = `*${extension}`;
+  const associations = config.get<Record<string, string>>(
+    editorAssociationsConfigKey,
+    {}
+  );
+  associations[pattern] = id;
+  return config.update(
+    editorAssociationsConfigKey,
+    associations,
+    vscode.ConfigurationTarget.Workspace
+  );
+}
 
 class AssetPreviewProvider
   implements vscode.CustomReadonlyEditorProvider<AssetDocument>
@@ -49,13 +78,9 @@ class AssetPreviewProvider
       )
     );
 
-    const config = vscode.workspace.getConfiguration(
-      "workbench.editorAssociations"
-    );
-    console.log(`${JSON.stringify(config)}`);
-    const defaultEditor = config["*.babylon"];
-    const defaultOpenAsText = defaultEditor === "default";
-    console.log(`${defaultEditor} ${defaultOpenAsText}`);
+    const currentEditor = getCurrentEditor(doc.extension);
+    const currentOpenAsText = currentEditor === defaultEditorId;
+    console.log(`${currentEditor} ${currentOpenAsText}`);
 
     const host = new WebviewHost({
       webview: panel.webview,
@@ -79,25 +104,27 @@ class AssetPreviewProvider
           <div class="text">Files with extension <span class="filename">${
             doc.extension
           }</span>
-          can be visualized in the <a href="https://babylonjs.com">Babylon.js</a>
+          can be rendered by the <a href="https://babylonjs.com">Babylon.js</a>
           ${viewerTitle.toLocaleLowerCase()}.</div>
-          <button id="open-in-viewer">Open in the ${viewerTitle}</button>
-        </div>
-        <div class="section${isText ? "" : " hidden"}">
-          <div class="text">
-            They can also be <a id="open-as-text" href="#">opened in the text editor</a>.
-          </div>
-          <input id="default-open-as-text" type="checkbox" ${
-            defaultOpenAsText ? "checked" : ""
-          }>
-          <label for="default-open-as-text">
-            <span class="checkbox"><i class="codicon codicon-check"></i></span><span
-                  class="label">Open as text by default</span>
-          </label>
+          <button id="render-in-viewer">Render in the ${viewerTitle}</button>
         </div>
         <div class="section">
           <!-- TODO: Deal with wrapping -->
           <table id="info-table"></table>
+        </div>
+        <div class="section${isText ? "" : " hidden"}">
+          <div class="text">
+            This file can also be <a id="open-as-text" href="#">opened in the text editor</a>.
+          </div>
+          <input id="default-open-as-text" type="checkbox" ${
+            currentOpenAsText ? "checked" : ""
+          }>
+          <label for="default-open-as-text">
+            <span class="checkbox"><i class="codicon codicon-check"></i></span><span
+                  class="label">Open <span class="filename">${
+                    doc.extension
+                  }</span> files as text by default</span>
+          </label>
         </div>
       </div>
       `,
@@ -114,9 +141,9 @@ class AssetPreviewProvider
       postInfo();
     });
 
-    host.on("open-in-viewer", () => {
+    host.on("render-in-viewer", () => {
       vscode.commands.executeCommand(commandFocus).then(() => {
-        vscode.commands.executeCommand(commandOpen, doc.uri);
+        vscode.commands.executeCommand(commandRender, doc.uri);
       });
     });
 
@@ -125,6 +152,11 @@ class AssetPreviewProvider
       // TODO: There is a command to "reopen" an editor with a different format. Figure out
       // how to use that instead, to eliminate flicker.
       panel.dispose();
+    });
+
+    host.on("update-default-open-as-text", (args) => {
+      const enabled = args.enabled as boolean;
+      updateCurrentEditor(doc.extension, enabled ? defaultEditorId : editorId);
     });
   }
 }

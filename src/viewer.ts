@@ -6,8 +6,8 @@ export const viewId = "babylonjs.assetViewer";
 export const shortTitle = "Asset Viewer";
 export const title = `Babylon.js ${shortTitle}`;
 export const description = "Renders glTF, glb, obj, and babylon assets";
-export const commandShow = `${viewId}.show`;
 export const commandOpen = `${viewId}.open`;
+export const commandRender = `${viewId}.render`;
 export const commandFocus = `${viewId}.focus`;
 
 class AssetViewerProvider implements vscode.WebviewViewProvider {
@@ -64,7 +64,7 @@ class AssetViewerProvider implements vscode.WebviewViewProvider {
     });
   }
 
-  public show() {
+  public open() {
     if (this._view) {
       this._view.show(true);
     } else {
@@ -72,7 +72,7 @@ class AssetViewerProvider implements vscode.WebviewViewProvider {
     }
   }
 
-  public open(uri: vscode.Uri) {
+  public render(uri: vscode.Uri) {
     this._setAssetUri(uri);
     if (this._view) {
       this._view.show(true);
@@ -117,18 +117,18 @@ export function register(
   );
 
   result.push(
-    vscode.commands.registerCommand(commandShow, () => {
-      provider.show();
+    vscode.commands.registerCommand(commandOpen, () => {
+      provider.open();
     })
   );
 
   result.push(
-    vscode.commands.registerCommand(commandOpen, (uri) => {
+    vscode.commands.registerCommand(commandRender, (uri) => {
       if (
         uri instanceof vscode.Uri &&
         supportedExtensions.includes(getExtension(uri))
       ) {
-        provider.open(uri);
+        provider.render(uri);
       }
     })
   );

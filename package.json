@@ -12,8 +12,8 @@
 	"main": "./dist/extension.js",
 	"activationEvents": [
 		"onView:babylonjs.assetViewer",
-		"onCommand:babylonjs.assetViewer.show",
 		"onCommand:babylonjs.assetViewer.open",
+		"onCommand:babylonjs.assetViewer.render",
 		"onCustomEditor:babylonjs.assetSummarizer"
 	],
 	"contributes": {
@@ -58,13 +58,13 @@
 		],
 		"commands": [
 			{
-				"command": "babylonjs.assetViewer.show",
-				"title": "Show the Babylon.js Viewer",
+				"command": "babylonjs.assetViewer.open",
+				"title": "Open the Babylon.js Viewer",
 				"category": "Babylon.js"
 			},
 			{
-				"command": "babylonjs.assetViewer.open",
-				"title": "Open in the Asset Viewer",
+				"command": "babylonjs.assetViewer.render",
+				"title": "Render in the Asset Viewer",
 				"category": "Babylon.js"
 			}
 		],
@@ -72,14 +72,14 @@
 			"explorer/context": [
 				{
 					"when": "resourceFilename =~ /\\.(babylon|gltf|glb|obj)$/",
-					"command": "babylonjs.assetViewer.open",
+					"command": "babylonjs.assetViewer.render",
 					"group": "navigation"
 				}
 			],
 			"editor/title/context": [
 				{
 					"when": "resourceFilename =~ /\\.(babylon|gltf|glb|obj)$/",
-					"command": "babylonjs.assetViewer.open",
+					"command": "babylonjs.assetViewer.render",
 					"group": "navigation"
 				}
 			]
