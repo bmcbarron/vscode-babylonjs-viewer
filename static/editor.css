@@ -65,76 +65,7 @@ button {
   max-width: 300px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: var(--vscode-sideBar-background);
-  cursor: default;
-}
-
-tr {
-  line-height: 2em;
-}
-
-tr:nth-child(odd) {
-  background-color: var(--vscode-list-hoverBackground);
-}
-
-tr:nth-child(1) {
-  background-color: var(--vscode-sideBarSectionHeader-background);
-  color: var(--vscode-sideBarSectionHeader-foreground);
-  text-transform: uppercase;
-  font-size: smaller;
-}
-
-th:nth-child(1), td:nth-child(1) {
-  border-right: 1px solid var(--vscode-list-deemphasizedForeground);
-  text-align: right;
-  padding-right: 0.5em;
-}
-
-th:nth-child(2), td:nth-child(2) {
-  text-align: left;
-  padding-left: 0.5em;
-}
-
-td:nth-child(1) {
-  color: var(--vscode-textPreformat-foreground);
-}
-
-tr:hover td {
-  background-color: var(--vscode-list-activeSelectionBackground);
-}
-
 .icon i {
   position: relative;
   top: 3px;
-}
-
-input[type="checkbox"] {
-  visibility: hidden;
-  position: absolute;
-}
-
-input[type="checkbox"] + label {
-  cursor: pointer;
-}
-
-.checkbox {
-  color: var(--vscode-checkbox-foreground);
-  background-color: var(--vscode-checkbox-background);
-  border-color: var(--vscode-checkbox-border);
-  border-radius: 3px;
-  padding: 1px;
-  margin-right: 0.5em;
-}
-
-.checkbox > i {
-  visibility: hidden;
-  position: relative;
-  top: 3px;
-}
-
-input[type="checkbox"]:checked + label .checkbox > i {
-  visibility: visible;
 }

@@ -14,7 +14,7 @@
 		"onView:babylonjs.assetViewer",
 		"onCommand:babylonjs.assetViewer.open",
 		"onCommand:babylonjs.assetViewer.render",
-		"onCustomEditor:babylonjs.assetSummarizer"
+		"onCustomEditor:babylonjs.assetDigest"
 	],
 	"contributes": {
 		"viewsContainers": {
@@ -37,8 +37,8 @@
 		},
 		"customEditors": [
 			{
-				"viewType": "babylonjs.assetSummarizer",
-				"displayName": "Babylon.js Asset Summarizer",
+				"viewType": "babylonjs.assetDigest",
+				"displayName": "Babylon.js Asset Digest",
 				"priority": "default",
 				"selector": [
 					{

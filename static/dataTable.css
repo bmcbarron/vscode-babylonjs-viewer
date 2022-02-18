@@ -1,0 +1,44 @@
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--vscode-sideBar-background);
+  cursor: default;
+}
+
+table.data-table tr {
+  line-height: 2em;
+}
+
+table.data-table tr:nth-child(odd) {
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+table.data-table tr:nth-child(1) {
+  background-color: var(--vscode-sideBarSectionHeader-background);
+  color: var(--vscode-sideBarSectionHeader-foreground);
+  text-transform: uppercase;
+  font-size: smaller;
+}
+
+table.data-table th:nth-child(1), table.data-table td:nth-child(1) {
+  border-right: 1px solid var(--vscode-list-deemphasizedForeground);
+  text-align: right;
+  padding: 0 0.5em;
+}
+
+table.data-table th:nth-child(2), table.data-table td:nth-child(2) {
+  text-align: left;
+  padding-left: 0.5em;
+  width: 100%;
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+table.data-table td:nth-child(1) {
+  color: var(--vscode-textPreformat-foreground);
+}
+
+table.data-table tr:hover td {
+  background-color: var(--vscode-list-activeSelectionBackground);
+}

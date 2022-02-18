@@ -1,13 +1,15 @@
 import * as vscode from "vscode";
 import { AssetDisposed, AssetDocument } from "./asset";
-import { friendlySize } from "./common";
+import { friendlySize, wrappableFilename } from "./common";
 
-// Asynchronously computes summary information for `doc`, and adds it to the doc's `InfoTable`.
-export async function scanAssetInfo(doc: AssetDocument): Promise<void> {
+// Asynchronously computes summary information for `doc`, and adds it to the doc's `Digest`.
+export async function summarizeAsset(doc: AssetDocument): Promise<void> {
   try {
-    doc.addInfo({ entries: [["path", doc.uri.fsPath]] });
+    doc.appendToDigest({
+      entries: [["path", wrappableFilename(doc.uri.fsPath)]],
+    });
     const stat = await vscode.workspace.fs.stat(doc.uri);
-    doc.addInfo({
+    doc.appendToDigest({
       entries: [["size", friendlySize(stat.size)]],
       finalize: true,
     });

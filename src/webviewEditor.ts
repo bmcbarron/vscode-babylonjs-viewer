@@ -63,10 +63,10 @@ function handleState(active: boolean) {
   activeBorder.className = `${activeBorderClass}${active ? "" : " hidden"}`;
 }
 
-function handleInfo(info: Array<[string, string]>, final: boolean) {
-  const table = document.getElementById("info-table") as HTMLTableElement;
+function handleDigest(digest: Array<[string, string]>, final: boolean) {
+  const table = document.getElementById("digest") as HTMLTableElement;
   if (!table) {
-    console.warn("Missing info-table");
+    console.warn("Missing digest");
     return;
   }
   while (table.lastChild) {
@@ -81,7 +81,7 @@ function handleInfo(info: Array<[string, string]>, final: boolean) {
   header.append(khdr, vhdr);
   table.append(header);
 
-  for (let [k, v] of info) {
+  for (let [k, v] of digest) {
     const row = document.createElement("tr");
     const kcol = document.createElement("td");
     kcol.innerText = k;
@@ -107,10 +107,10 @@ window.addEventListener("message", (event) => {
   if (type === "state") {
     const active = body["active"] as boolean;
     handleState(active);
-  } else if (type === "info") {
-    const info = body["info"] as Array<[string, string]>;
+  } else if (type === "digest") {
+    const digest = body["digest"] as Array<[string, string]>;
     const final = body["final"] as boolean;
-    handleInfo(info, final);
+    handleDigest(digest, final);
   }
 });
 vscode.postMessage({ type: "ready" });

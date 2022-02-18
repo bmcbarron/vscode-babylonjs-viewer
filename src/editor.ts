@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { AssetDocument } from "./asset";
-import { scanAssetInfo } from "./assetScanner";
+import { summarizeAsset } from "./assetScanner";
 import { textExtensions } from "./common";
 import {
   commandFocus,
@@ -8,19 +8,13 @@ import {
   shortTitle as viewerTitle,
 } from "./viewer";
 import { WebviewHost } from "./webviewHost";
-// "configurationDefaults": {
-//   "workbench.editorAssociations": {
-//     "*.babylon": "babylonjs.assetSummarizer",
-//     "*.glb": "babylonjs.assetSummarizer",
-//     "*.gltf": "babylonjs.assetSummarizer",
-//     "*.obj": "babylonjs.assetSummarizer"
-//   }
-// },
-const editorId = "babylonjs.assetSummarizer";
+
+const editorId = "babylonjs.assetDigest";
 const defaultEditorId = "default";
-const title = "Babylon.js Asset Summary";
+const title = "Babylon.js Asset Digest";
 const description =
   "Summarizes the contents of glTF, glb, obj, and babylon assets";
+
 const editorAssociationsConfigKey = "workbench.editorAssociations";
 
 function getCurrentEditor(extension: string) {
@@ -57,7 +51,7 @@ class AssetPreviewProvider
     _token: vscode.CancellationToken
   ): Promise<AssetDocument> {
     const doc = await AssetDocument.create(uri);
-    scanAssetInfo(doc);
+    summarizeAsset(doc);
     return doc;
   }
 
@@ -95,6 +89,8 @@ class AssetPreviewProvider
         "reset.css",
         "vscode.css",
         "codicon-modifiers.css",
+        "dataTable.css",
+        "checkbox.css",
         "editor.css",
       ],
       scriptFilenames: ["webviewEditor.js"],
@@ -110,7 +106,7 @@ class AssetPreviewProvider
         </div>
         <div class="section">
           <!-- TODO: Deal with wrapping -->
-          <table id="info-table"></table>
+          <table id="digest" class="data-table"></table>
         </div>
         <div class="section${isText ? "" : " hidden"}">
           <div class="text">
@@ -135,10 +131,10 @@ class AssetPreviewProvider
     });
 
     host.on("ready", () => {
-      const postInfo = () =>
-        host.post("info", { info: doc.info, final: doc.isInfoFinal });
-      doc.onDidInfoChange(postInfo);
-      postInfo();
+      const postDigest = () =>
+        host.post("digest", { digest: doc.digest, final: doc.isDigestFinal });
+      doc.onDidDigestChange(postDigest);
+      postDigest();
     });
 
     host.on("render-in-viewer", () => {
@@ -170,7 +166,7 @@ export function register(
   result.push(
     vscode.window.registerCustomEditorProvider(editorId, provider, {
       webviewOptions: { enableFindWidget: true },
-      // TODO: Synchronize InfoTable state across multiple tabs.
+      // TODO: Synchronize Digest state across multiple tabs.
       // supportsMultipleEditorsPerDocument: true
     })
   );

@@ -1,0 +1,27 @@
+input[type="checkbox"] {
+  visibility: hidden;
+  position: absolute;
+}
+
+input[type="checkbox"] + label {
+  cursor: pointer;
+}
+
+.checkbox {
+  color: var(--vscode-checkbox-foreground);
+  background-color: var(--vscode-checkbox-background);
+  border-color: var(--vscode-checkbox-border);
+  border-radius: 3px;
+  padding: 1px;
+  margin-right: 0.5em;
+}
+
+.checkbox > i {
+  visibility: hidden;
+  position: relative;
+  top: 3px;
+}
+
+input[type="checkbox"]:checked + label .checkbox > i {
+  visibility: visible;
+}

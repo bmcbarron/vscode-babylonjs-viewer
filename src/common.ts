@@ -38,3 +38,10 @@ export function friendlySize(bytes: number) {
     return `${bytes} B`;
   }
 }
+
+// Zero-width-space, which can be used to provide "soft" breakpoints in a long string.
+export const ZWS = "\u200b";
+
+export function wrappableFilename(filename: string) {
+  return filename.replace(/[/\\]/g, (match) => `${match}${ZWS}`);
+}

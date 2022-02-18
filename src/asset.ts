@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { getExtension } from "./common";
 
-export type InfoTable = Array<[string, string]>;
+export type Digest = Array<[string, string]>;
 
 export class AssetDisposed extends Error {}
 
@@ -14,19 +14,19 @@ export class AssetDocument implements vscode.CustomDocument {
     return getExtension(this.uri);
   }
 
-  // TODO: Create LRU cache of infos per document.
-  get info() {
+  // TODO: Create LRU cache of digests per document.
+  get digest() {
     // TODO: Wrap in readonly proxy
-    return this.info_;
+    return this.digest_;
   }
-  private info_: InfoTable = [];
+  private digest_: Digest = [];
 
-  get onDidInfoChange() {
-    return this.onDidInfoChange_.event;
+  get onDidDigestChange() {
+    return this.onDidDigestChange_.event;
   }
-  private onDidInfoChange_ = new vscode.EventEmitter<void>();
+  private onDidDigestChange_ = new vscode.EventEmitter<void>();
 
-  get isInfoFinal() {
+  get isDigestFinal() {
     return this.finalized_;
   }
   private finalized_ = false;
@@ -34,16 +34,16 @@ export class AssetDocument implements vscode.CustomDocument {
 
   constructor(readonly uri: vscode.Uri) {}
 
-  addInfo(args: { entries?: InfoTable; finalize?: boolean }) {
+  appendToDigest(args: { entries?: Digest; finalize?: boolean }) {
     if (this.disposed_) {
       throw new AssetDisposed();
     }
     if (this.finalized_) {
-      throw new Error("AssetDocument.addInfo() after finalize");
+      throw new Error("AssetDocument.appendToDigest() after finalize");
     }
-    this.info_.push(...(args.entries ?? []));
+    this.digest_.push(...(args.entries ?? []));
     this.finalized_ = args.finalize ?? false;
-    this.onDidInfoChange_.fire();
+    this.onDidDigestChange_.fire();
   }
 
   dispose(): void {
