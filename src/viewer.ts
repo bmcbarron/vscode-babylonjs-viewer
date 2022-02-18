@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { getExtension, supportedExtensions } from "./common";
-import { WebviewHost } from "./webviewHost";
+import { WebviewHost } from "./wvHost";
 
 export const viewId = "babylonjs.assetViewer";
 export const shortTitle = "Asset Viewer";
@@ -47,13 +47,13 @@ class AssetViewerProvider implements vscode.WebviewViewProvider {
       styleFilenames: [
         "https://use.typekit.net/cta4xsb.css",
         "viewer.css",
-        "webviewViewer.css",
+        "wvViewer.css",
       ],
       scriptFilenames: [
         "https://preview.babylonjs.com/ammo.js",
         "https://preview.babylonjs.com/cannon.js",
         "https://preview.babylonjs.com/Oimo.js",
-        "webviewViewer.js",
+        "wvViewer.js",
       ],
       content: /* html */ `<div id="host-element" />`,
     });

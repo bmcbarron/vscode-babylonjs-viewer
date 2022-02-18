@@ -1,21 +1,22 @@
 {
-	"name": "bjs-sandbox",
-	"displayName": "Babylon.js Asset Viewer",
-	"description": "An in-engine viewer for BabylonJS assets.",
-	"version": "0.0.1",
+	"name": "babylonjs-viewer",
+	"version": "0.9.0",
+	"publisher": "bmcbarron",
 	"engines": {
 		"vscode": "^1.64.0"
 	},
+	"license": "SEE LICENSE in LICENSE.md",
+	"displayName": "Babylon.js Asset Viewer",
+	"description": "A asset renderer/viewer utilizing the Babylon.js engine.",
 	"categories": [
-		"Other"
+		"Visualization"
+	],
+	"keywords": [
+		"Babylon.js",
+		".babylon",
+		"viewer"
 	],
 	"main": "./dist/extension.js",
-	"activationEvents": [
-		"onView:babylonjs.assetViewer",
-		"onCommand:babylonjs.assetViewer.open",
-		"onCommand:babylonjs.assetViewer.render",
-		"onCustomEditor:babylonjs.assetDigest"
-	],
 	"contributes": {
 		"viewsContainers": {
 			"panel": [
@@ -99,18 +100,22 @@
 			}
 		]
 	},
-	"scripts": {
-		"// vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
-		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js",
-		"vscode:prepublish": "npm run package",
-		"webpack": "webpack --mode development",
-		"webpack-dev": "webpack --mode development --watch",
-		"package": "webpack --mode production --devtool hidden-source-map",
-		"test-compile": "tsc -p ./"
+	"activationEvents": [
+		"onView:babylonjs.assetViewer",
+		"onCommand:babylonjs.assetViewer.open",
+		"onCommand:babylonjs.assetViewer.render",
+		"onCustomEditor:babylonjs.assetDigest"
+	],
+	"dependencies": {
+		"@babylonjs/core": "^5.0.0-beta.6",
+		"@babylonjs/gui": "^5.0.0-beta.6",
+		"@babylonjs/inspector": "^5.0.0-beta.6",
+		"@babylonjs/loaders": "^5.0.0-beta.6",
+		"@babylonjs/materials": "^5.0.0-beta.6",
+		"@babylonjs/serializers": "^5.0.0-beta.6",
+		"copy-webpack-plugin": "^10.2.4",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.2.0",
@@ -137,15 +142,16 @@
 		"webpack": "^5.68.0",
 		"webpack-cli": "^4.9.2"
 	},
-	"dependencies": {
-		"@babylonjs/core": "^5.0.0-beta.6",
-		"@babylonjs/gui": "^5.0.0-beta.6",
-		"@babylonjs/inspector": "^5.0.0-beta.6",
-		"@babylonjs/loaders": "^5.0.0-beta.6",
-		"@babylonjs/materials": "^5.0.0-beta.6",
-		"@babylonjs/serializers": "^5.0.0-beta.6",
-		"copy-webpack-plugin": "^10.2.4",
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2"
-	}
+	"scripts": {
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js",
+		"vscode:prepublish": "npm run package",
+		"webpack": "webpack --mode development",
+		"webpack-dev": "webpack --mode development --watch",
+		"package": "webpack --mode production --devtool hidden-source-map",
+		"test-compile": "tsc -p ./"
+	},
 }

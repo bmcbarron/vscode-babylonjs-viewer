@@ -3,6 +3,7 @@ import { AssetDisposed, AssetDocument } from "./asset";
 import { friendlySize, wrappableFilename } from "./common";
 
 // Asynchronously computes summary information for `doc`, and adds it to the doc's `Digest`.
+// TODO: Add more file-format-specific data (# of meshes, vertices, textures, etc).
 export async function summarizeAsset(doc: AssetDocument): Promise<void> {
   try {
     doc.appendToDigest({

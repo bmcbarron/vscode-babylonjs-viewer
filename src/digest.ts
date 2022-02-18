@@ -7,7 +7,7 @@ import {
   commandRender,
   shortTitle as viewerTitle,
 } from "./viewer";
-import { WebviewHost } from "./webviewHost";
+import { WebviewHost } from "./wvHost";
 
 const editorId = "babylonjs.assetDigest";
 const defaultEditorId = "default";
@@ -91,9 +91,9 @@ class AssetPreviewProvider
         "codicon-modifiers.css",
         "dataTable.css",
         "checkbox.css",
-        "editor.css",
+        "digest.css",
       ],
-      scriptFilenames: ["webviewEditor.js"],
+      scriptFilenames: ["wvDigest.js"],
       content: /* html */ `
       <div id="viewport">
         <div class="section">

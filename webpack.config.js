@@ -20,18 +20,18 @@ const config = {
       },
     },
     // The entry point of the asset viewer webview.
-    webviewViewer: {
-      import: "./src/webviewViewer.ts",
+    wvViewer: {
+      import: "./src/wvViewer.ts",
       library: {
         name: "AssetViewer",
         type: "var",
       },
     },
-    // The entry point of the asset editor webview.
-    webviewEditor: {
-      import: "./src/webviewEditor.ts",
+    // The entry point of the asset digest webview.
+    wvDigest: {
+      import: "./src/wvDigest.ts",
       library: {
-        name: "AssetEditor",
+        name: "AssetDigest",
         type: "var",
       },
     },
