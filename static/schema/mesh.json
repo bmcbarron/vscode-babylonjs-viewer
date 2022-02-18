@@ -1,8 +1,291 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon mesh schema",
+  "title": "Mesh",
   "type": "object",
-  "required": [],
+  "required": [
+    "name",
+    "id",
+    "materialId",
+    "position",
+    "scaling",
+    "isVisible",
+    "isEnabled",
+    "checkCollisions",
+    "billboardMode",
+    "receiveShadows",
+    "subMeshes"
+  ],
   "additionalProperties": false,
-  "properties": {}
+  "$comment": "Many of these properites are shared with VertexData. Combine if partial schemas become supported.",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "string"
+    },
+    "parentId": {
+      "type": "string"
+    },
+    "materialId": {
+      "type": "string"
+    },
+    "geometryId": {
+      "type": "string"
+    },
+    "position": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "rotation": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "rotationQuaternion": {
+      "$ref": "common.json#/definitions/Vector4"
+    },
+    "scaling": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "pivotMatrix": {
+      "$ref": "common.json#/definitions/Matrix"
+    },
+    "freezeWorldMatrix": {
+      "type": "boolean"
+    },
+    "infiniteDistance": {
+      "type": "boolean"
+    },
+    "showBoundingBox": {
+      "type": "boolean"
+    },
+    "showSubMeshesBoundingBox": {
+      "type": "boolean"
+    },
+    "isVisible": {
+      "type": "boolean"
+    },
+    "isEnabled": {
+      "type": "boolean"
+    },
+    "pickable": {
+      "type": "boolean"
+    },
+    "applyFog": {
+      "type": "boolean"
+    },
+    "alphaIndex": {
+      "type": "integer"
+    },
+    "checkCollisions": {
+      "type": "boolean"
+    },
+    "billboardMode": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7,
+      "oneOf": [
+        {
+          "const": 0,
+          "title": "None"
+        },
+        {
+          "const": 1,
+          "title": "X"
+        },
+        {
+          "const": 2,
+          "title": "Y"
+        },
+        {
+          "const": 4,
+          "title": "Z"
+        },
+        {
+          "const": 7,
+          "title": "All"
+        }
+      ]
+    },
+    "receiveShadows": {
+      "type": "boolean"
+    },
+    "physicsImpostor": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "oneOf": [
+        {
+          "const": 0,
+          "title": "None"
+        },
+        {
+          "const": 1,
+          "title": "Box"
+        },
+        {
+          "const": 2,
+          "title": "Sphere"
+        }
+      ]
+    },
+    "physicsMass": {
+      "type": "number"
+    },
+    "physicsFriction": {
+      "type": "number"
+    },
+    "physicsRestitution": {
+      "type": "number"
+    },
+    "positions": {
+      "$ref": "common.json#/definitions/FlatVertexArray"
+    },
+    "normals": {
+      "$ref": "common.json#/definitions/FlatVertexArray"
+    },
+    "uvs": {
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "uvs2": {
+      "$comment": "2nd texture coordinates",
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "uvs3": {
+      "$comment": "3rd texture coordinates",
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "uvs4": {
+      "$comment": "4th texture coordinates",
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "uvs5": {
+      "$comment": "5th texture coordinates",
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "uvs6": {
+      "$comment": "6th texture coordinates",
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "colors": {
+      "$ref": "common.json#/definitions/FlatColor3Array"
+    },
+    "hasVertexAlpha": {
+      "$comment": "Whether the colors field contains useful alpha values",
+      "type": "boolean"
+    },
+    "matricesIndices": {
+      "$ref": "common.json#/definitions/FlatBoneIndicesArray"
+    },
+    "matricesWeights": {
+      "$ref": "common.json#/definitions/FlatBoneWeightsArray"
+    },
+    "indices": {
+      "$ref": "common.json#/definitions/FlatFaceIndicesArray"
+    },
+    "subMeshes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SubMesh"
+      }
+    },
+    "animations": {
+      "type": "array",
+      "items": {
+        "$ref": "animation.json"
+      }
+    },
+    "autoAnimate": {
+      "type": "boolean"
+    },
+    "autoAnimateFrom": {
+      "type": "integer"
+    },
+    "autoAnimateTo": {
+      "type": "integer"
+    },
+    "autoAnimateLoop": {
+      "type": "boolean"
+    },
+    "autoAnimateSpeed": {
+      "type": "number"
+    },
+    "instances": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Instance"
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "$ref": "action.json"
+      }
+    }
+  },
+  "definitions": {
+    "Instance": {
+      "title": "Instance",
+      "type": "object",
+      "required": [
+        "name",
+        "position",
+        "scaling"
+      ],
+      "additionalItems": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "string"
+        },
+        "position": {
+          "$ref": "common.json#/definitions/Vector3"
+        },
+        "rotation": {
+          "$ref": "common.json#/definitions/Vector3"
+        },
+        "rotationQuaternion": {
+          "$ref": "common.json#/definitions/Vector4"
+        },
+        "scaling": {
+          "$ref": "common.json#/definitions/Vector3"
+        }
+      }
+    },
+    "SubMesh": {
+      "title": "SubMesh",
+      "type": "object",
+      "required": [
+        "materialIndex",
+        "verticesStart",
+        "verticesCount",
+        "indexStart",
+        "indexCount"
+      ],
+      "additionalItems": false,
+      "properties": {
+        "materialIndex": {
+          "type": "integer"
+        },
+        "verticesStart": {
+          "type": "integer"
+        },
+        "verticesCount": {
+          "type": "integer"
+        },
+        "indexStart": {
+          "type": "integer"
+        },
+        "indexCount": {
+          "type": "integer"
+        }
+      }
+    }
+  }
 }

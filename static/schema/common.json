@@ -3,6 +3,7 @@
   "title": ".babylon common type schemas",
   "definitions": {
     "Color3": {
+      "title": "Color3",
       "type": "array",
       "minItems": 3,
       "maxItems": 3,
@@ -12,7 +13,19 @@
         "maximum": 1
       }
     },
+    "Color4": {
+      "title": "Color4",
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      }
+    },
     "Vector3": {
+      "title": "Vector3",
       "type": "array",
       "minItems": 3,
       "maxItems": 3,
@@ -21,11 +34,100 @@
       }
     },
     "Vector4": {
+      "title": "Vector4",
       "type": "array",
       "minItems": 4,
       "maxItems": 4,
       "items": {
         "type": "number"
+      }
+    },
+    "Matrix": {
+      "title": "Matrix",
+      "$comment": "Row-first encoded 4x4 matrix",
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "number"
+      }
+    },
+    "FlatVertexArray": {
+      "$comment": "Flattened array of Vector3s, one entry per vertex, for a total length of 3 * vertex count",
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "FlatUVArray": {
+      "$comment": "Flattened array of UVs, one entry per vertex, for a total length of 2 * vertex count",
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "FlatColor3Array": {
+      "$comment": "Flattened array of Color3s, one entry per vertex, for a total length of 3 * vertex count",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      }
+    },
+    "FlatBoneIndicesArray": {
+      "$comment": "Flattened array of matrix indices, four per bone, for a total length of 4 * bone count",
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "FlatBoneWeightsArray": {
+      "$comment": "Flattened array of matrix weights, four per bone, for a total length of 4 * bone count",
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "FlatFaceIndicesArray": {
+      "$comment": "Flattened array of vertex indices, three per face, for a total length of 3 * face count",
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "Animatable": {
+      "$comment": "This partial schema is shared by many types, but draft-07 doesn't support reusing it in that way.",
+      "type": "object",
+      "required": [
+        "animations",
+        "autoAnimate",
+        "autoAnimateFrom",
+        "autoAnimateTo"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "animations": {
+          "type": "array",
+          "items": {
+            "$ref": "animation.json"
+          }
+        },
+        "autoAnimate": {
+          "type": "boolean"
+        },
+        "autoAnimateFrom": {
+          "type": "integer"
+        },
+        "autoAnimateTo": {
+          "type": "integer"
+        },
+        "autoAnimateLoop": {
+          "type": "boolean"
+        },
+        "autoAnimateSpeed": {
+          "type": "number"
+        }
       }
     }
   }

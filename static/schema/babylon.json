@@ -48,19 +48,19 @@
     "lights": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Light"
+        "$ref": "light.json"
       }
     },
     "reflectionProbes": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/ReflectionProbe"
+        "$ref": "reflection_probe.json"
       }
     },
     "materials": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Material"
+        "$ref": "material.json"
       }
     },
     "geometries": {
@@ -69,7 +69,7 @@
         "vertexData": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/VertexData"
+            "$ref": "vertex_data.json"
           }
         }
       }
@@ -77,49 +77,49 @@
     "meshes": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Mesh"
+        "$ref": "mesh.json"
       }
     },
     "multiMaterials": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/MultiMaterial"
+        "$ref": "multi_material.json"
       }
     },
     "shadowGenerators": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/ShadowGenerator"
+        "$ref": "shadow_generator.json"
       }
     },
     "skeletons": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Skeleton"
+        "$ref": "skeleton.json"
       }
     },
     "particleSystems": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/ParticleSystem"
+        "$ref": "particle_system.json"
       }
     },
     "lensFlareSystems": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/LensFlareSystem"
+        "$ref": "lens_flare_system.json"
       }
     },
     "actions": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Action"
+        "$ref": "action.json"
       }
     },
     "sounds": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Sound"
+        "$ref": "sound.json"
       }
     },
     "collisionsEnabled": {

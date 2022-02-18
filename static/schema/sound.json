@@ -1,8 +1,97 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon sound schema",
+  "title": "Sound",
   "type": "object",
-  "required": [],
+  "required": [
+    "name"
+  ],
   "additionalProperties": false,
-  "properties": {}
+  "properties": {
+    "name": {
+      "$comment": "Filename",
+      "type": "string"
+    },
+    "volume": {
+      "type": "number",
+      "default": 1
+    },
+    "autoplay": {
+      "type": "boolean"
+    },
+    "loop": {
+      "type": "boolean"
+    },
+    "soundTrackId": {
+      "type": "integer"
+    },
+    "spatialSound": {
+      "$comment": "Whether 3D sound is enabled",
+      "type": "boolean"
+    },
+    "position": {
+      "$ref": "common.json#/definitions/Vector3",
+      "default": [
+        0,
+        0,
+        0
+      ]
+    },
+    "refDistance": {
+      "type": "number",
+      "default": 1
+    },
+    "rolloffFactor": {
+      "type": "number",
+      "default": 1
+    },
+    "maxDistance": {
+      "type": "number",
+      "default": 100
+    },
+    "distanceModel": {
+      "type": "string",
+      "enum": [
+        "linear",
+        "inverse",
+        "exponential"
+      ],
+      "default": "linear"
+    },
+    "panningModel": {
+      "type": "string",
+      "enum": [
+        "HRTF",
+        "equalpower"
+      ],
+      "default": "HRTF"
+    },
+    "isDirectional": {
+      "$comment": "Whether to enable directional cone (requires #spatialSound)",
+      "type": "boolean"
+    },
+    "coneInnerAngle": {
+      "$comment": "Used for #spatialSound && #isDirectional",
+      "type": "number"
+    },
+    "coneOuterAngle": {
+      "$comment": "Used for #spatialSound && #isDirectional",
+      "type": "number"
+    },
+    "coneOuterGain": {
+      "$comment": "Used for #spatialSound && #isDirectional",
+      "type": "number"
+    },
+    "connectedMeshId": {
+      "$comment": "TODO: This is documented as string, but the example used 0.",
+      "type": "integer"
+    },
+    "localDirectionToMesh": {
+      "$ref": "common.json#/definitions/Vector3",
+      "default": [
+        1,
+        0,
+        0
+      ]
+    }
+  }
 }

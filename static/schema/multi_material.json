@@ -1,8 +1,29 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon multi material schema",
+  "title": "MultiMaterial",
   "type": "object",
-  "required": [],
+  "required": [
+    "name",
+    "id",
+    "materials"
+  ],
   "additionalProperties": false,
-  "properties": {}
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "string"
+    },
+    "materials": {
+      "$comment": "IDs of the sub-materials",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
 }

@@ -1,8 +1,135 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon particle system schema",
+  "title": "ParticleSystem",
   "type": "object",
-  "required": [],
+  "required": [
+    "emitterId",
+    "gravity",
+    "direction1",
+    "direction2",
+    "minEmitBox",
+    "maxEmitBox",
+    "color1",
+    "color2",
+    "colorDead",
+    "deadAlpha",
+    "emitRate",
+    "updateSpeed",
+    "targetStopFrame",
+    "minEmitPower",
+    "maxEmitPower",
+    "minLifeTime",
+    "maxLifeTime",
+    "minSize",
+    "maxSize",
+    "minAngularSpeed",
+    "maxAngularSpeed",
+    "textureName",
+    "blendMode",
+    "capacity",
+    "textureMask",
+    "linkToEmitter"
+  ],
   "additionalProperties": false,
-  "properties": {}
+  "properties": {
+    "emitterId": {
+      "type": "string"
+    },
+    "gravity": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "direction1": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "direction2": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "minEmitBox": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "maxEmitBox": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "color1": {
+      "$ref": "common.json#/definitions/Color3"
+    },
+    "color2": {
+      "$ref": "common.json#/definitions/Color3"
+    },
+    "colorDead": {
+      "$ref": "common.json#/definitions/Color3"
+    },
+    "deadAlpha": {
+      "type": "number"
+    },
+    "emitRate": {
+      "type": "number"
+    },
+    "updateSpeed": {
+      "type": "number"
+    },
+    "targetStopFrame": {
+      "type": "integer"
+    },
+    "minEmitPower": {
+      "type": "integer"
+    },
+    "maxEmitPower": {
+      "type": "number"
+    },
+    "minLifeTime": {
+      "type": "number"
+    },
+    "maxLifeTime": {
+      "type": "number"
+    },
+    "minSize": {
+      "type": "number"
+    },
+    "maxSize": {
+      "type": "number"
+    },
+    "minAngularSpeed": {
+      "type": "number"
+    },
+    "maxAngularSpeed": {
+      "type": "number"
+    },
+    "textureName": {
+      "type": "string"
+    },
+    "blendMode": {
+      "type": "integer"
+    },
+    "capacity": {
+      "type": "integer"
+    },
+    "textureMask": {
+      "$ref": "common.json#/definitions/Color4"
+    },
+    "linkToEmitter": {
+      "type": "boolean"
+    },
+    "animations": {
+      "type": "array",
+      "items": {
+        "$ref": "animation.json"
+      }
+    },
+    "autoAnimate": {
+      "type": "boolean"
+    },
+    "autoAnimateFrom": {
+      "type": "integer"
+    },
+    "autoAnimateTo": {
+      "type": "integer"
+    },
+    "autoAnimateLoop": {
+      "type": "boolean"
+    },
+    "autoAnimateSpeed": {
+      "type": "number"
+    }
+  }
 }

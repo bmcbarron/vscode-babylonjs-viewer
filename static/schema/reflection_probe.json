@@ -1,8 +1,0 @@
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon reflection probe schema",
-  "type": "object",
-  "required": [],
-  "additionalProperties": false,
-  "properties": {}
-}

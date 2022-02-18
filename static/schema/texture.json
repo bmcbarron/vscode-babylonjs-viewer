@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Texture",
+  "type": "object",
+  "required": [
+    "name",
+    "level",
+    "hasAlpha",
+    "coordinatesMode",
+    "uOffset",
+    "vOffset",
+    "uScale",
+    "vScale",
+    "uAng",
+    "vAng",
+    "wAng",
+    "wrapU",
+    "wrapV",
+    "coordinatesIndex"
+  ],
+  "additionalProperties": false,
+  "$comment": "This contains all of the properties of RenderTargetTexture and ReflectionProbe, since JSON draft-07 doesn't support extending a schema",
+  "properties": {
+    "name": {
+      "$comment": "Filename",
+      "type": "string"
+    },
+    "level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "hasAlpha": {
+      "$comment": "TODO: This is documented as boolean, but the example used 1.",
+      "type": "number",
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "getAlphaFromRGB": {
+      "type": "boolean"
+    },
+    "coordinatesMode": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "oneOf": [
+        {
+          "const": 0,
+          "title": "Explicit"
+        },
+        {
+          "const": 1,
+          "title": "Spherical"
+        },
+        {
+          "const": 2,
+          "title": "Planar"
+        },
+        {
+          "const": 3,
+          "title": "Cubic"
+        },
+        {
+          "const": 4,
+          "title": "Projection"
+        },
+        {
+          "const": 5,
+          "title": "SkyBox"
+        }
+      ]
+    },
+    "uOffset": {
+      "type": "number"
+    },
+    "vOffset": {
+      "type": "number"
+    },
+    "uScale": {
+      "type": "number"
+    },
+    "vScale": {
+      "type": "number"
+    },
+    "uAng": {
+      "type": "number"
+    },
+    "vAng": {
+      "type": "number"
+    },
+    "wAng": {
+      "type": "number"
+    },
+    "wrapU": {
+      "type": "boolean"
+    },
+    "wrapV": {
+      "type": "boolean"
+    },
+    "coordinatesIndex": {
+      "type": "integer"
+    },
+    "animations": {
+      "type": "array",
+      "items": {
+        "$ref": "animation.json"
+      }
+    },
+    "base64String": {
+      "$comment": "RenderTargetTexture only",
+      "type": "string"
+    },
+    "refreshRate": {
+      "$comment": "RenderTargetTexture only",
+      "type": "integer"
+    },
+    "isCube": {
+      "$comment": "RenderTargetTexture only",
+      "type": "boolean"
+    },
+    "is3D": {
+      "$comment": "RenderTargetTexture only",
+      "type": "boolean"
+    },
+    "renderTargetSize": {
+      "$comment": "RenderTargetTexture only; Render size of the render target texture",
+      "type": "integer"
+    },
+    "renderList": {
+      "$comment": "RenderTargetTexture only; IDs of the meshes to render",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "isReflectionProbe": {
+      "$comment": "RenderTargetTexture only; Whether this ReflectionProbe",
+      "type": "boolean"
+    },
+    "_attachedMesh": {
+      "$comment": "ReflectionProbe only; ID of the attached mesh",
+      "type": "string"
+    },
+    "position": {
+      "$comment": "ReflectionProbe only; Position of the reflection probe",
+      "$ref": "common.json#/definitions/Vector3"
+    }
+  }
+}

@@ -1,8 +1,66 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon vertex data schema",
+  "title": "VertexData",
   "type": "object",
-  "required": [],
+  "required": [
+    "id",
+    "updatable",
+    "positions",
+    "normals",
+    "uvs",
+    "indices"
+  ],
   "additionalProperties": false,
-  "properties": {}
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "updatable": {
+      "type": "boolean"
+    },
+    "positions": {
+      "$ref": "common.json#/definitions/FlatVertexArray"
+    },
+    "normals": {
+      "$ref": "common.json#/definitions/FlatVertexArray"
+    },
+    "uvs": {
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "uvs2": {
+      "$comment": "2nd texture coordinates",
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "uvs3": {
+      "$comment": "3rd texture coordinates",
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "uvs4": {
+      "$comment": "4th texture coordinates",
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "uvs5": {
+      "$comment": "5th texture coordinates",
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "uvs6": {
+      "$comment": "6th texture coordinates",
+      "$ref": "common.json#/definitions/FlatUVArray"
+    },
+    "colors": {
+      "$ref": "common.json#/definitions/FlatColor3Array"
+    },
+    "matricesIndices": {
+      "$ref": "common.json#/definitions/FlatBoneIndicesArray"
+    },
+    "matricesWeights": {
+      "$ref": "common.json#/definitions/FlatBoneWeightsArray"
+    },
+    "indices": {
+      "$ref": "common.json#/definitions/FlatFaceIndicesArray"
+    },
+    "tags": {
+      "type": "string"
+    }
+  }
 }

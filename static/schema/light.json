@@ -1,8 +1,117 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon light schema",
+  "title": "Light",
   "type": "object",
-  "required": [],
+  "required": [
+    "name",
+    "id",
+    "type",
+    "position",
+    "direction",
+    "intensity",
+    "diffuse",
+    "specular"
+  ],
   "additionalProperties": false,
-  "properties": {}
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "string"
+    },
+    "type": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "oneOf": [
+        {
+          "const": 0,
+          "title": "Point"
+        },
+        {
+          "const": 1,
+          "title": "Directional"
+        },
+        {
+          "const": 2,
+          "title": "Spot"
+        },
+        {
+          "const": 3,
+          "title": "Hemispheric"
+        }
+      ]
+    },
+    "position": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "direction": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "angle": {
+      "$comment": "For spot lights",
+      "type": "number"
+    },
+    "exponent": {
+      "$comment": "For spot lights",
+      "type": "number"
+    },
+    "groundColor": {
+      "$comment": "For hemispheric lights",
+      "$ref": "common.json#/definitions/Color3"
+    },
+    "intensity": {
+      "type": "integer"
+    },
+    "range": {
+      "type": "number"
+    },
+    "diffuse": {
+      "$ref": "common.json#/definitions/Color3"
+    },
+    "specular": {
+      "$ref": "common.json#/definitions/Color3"
+    },
+    "excludedMeshesIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "includedOnlyMeshesIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "animations": {
+      "type": "array",
+      "items": {
+        "$ref": "animation.json"
+      }
+    },
+    "autoAnimate": {
+      "type": "boolean"
+    },
+    "autoAnimateFrom": {
+      "type": "integer"
+    },
+    "autoAnimateTo": {
+      "type": "integer"
+    },
+    "autoAnimateLoop": {
+      "type": "boolean"
+    },
+    "autoAnimateSpeed": {
+      "type": "number"
+    }
+  }
 }

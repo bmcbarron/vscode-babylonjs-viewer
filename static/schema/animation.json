@@ -1,8 +1,126 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon animation schema",
+  "title": "Animation",
   "type": "object",
-  "required": [],
+  "required": [
+    "dataType",
+    "framePerSecond",
+    "loopBehavior",
+    "name",
+    "property",
+    "keys"
+  ],
   "additionalProperties": false,
-  "properties": {}
+  "properties": {
+    "dataType": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "oneOf": [
+        {
+          "const": 0,
+          "title": "Float"
+        },
+        {
+          "const": 1,
+          "title": "Vector3"
+        },
+        {
+          "const": 2,
+          "title": "Quaternion"
+        },
+        {
+          "const": 3,
+          "title": "Matrix"
+        }
+      ]
+    },
+    "framePerSecond": {
+      "type": "integer"
+    },
+    "loopBehavior": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "oneOf": [
+        {
+          "const": 0,
+          "title": "Relative"
+        },
+        {
+          "const": 1,
+          "title": "Cycle"
+        },
+        {
+          "const": 2,
+          "title": "Constant"
+        }
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "property": {
+      "type": "string"
+    },
+    "keys": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/AnimationKey"
+      }
+    },
+    "autoAnimate": {
+      "type": "boolean"
+    },
+    "autoAnimateFrom": {
+      "type": "integer"
+    },
+    "autoAnimateTo": {
+      "type": "integer"
+    },
+    "autoAnimateLoop": {
+      "type": "boolean"
+    }
+  },
+  "definitions": {
+    "AnimationKey": {
+      "title": "AnimationKey",
+      "type": "object",
+      "required": [
+        "frame",
+        "values"
+      ],
+      "additionalItems": false,
+      "properties": {
+        "frame": {
+          "type": "integer"
+        },
+        "values": {
+          "$comment": "Type depends on #/properties/dataType",
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "oneOf": [
+            {
+              "$ref": "common.json#/definitions/Vector3"
+            },
+            {
+              "$ref": "common.json#/definitions/Vector4"
+            },
+            {
+              "$ref": "common.json#/definitions/Matrix"
+            }
+          ]
+        }
+      }
+    }
+  }
 }

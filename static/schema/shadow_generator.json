@@ -1,8 +1,50 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon shadow generator schema",
+  "title": "ShadowGenerator",
   "type": "object",
-  "required": [],
+  "required": [
+    "useVarianceShadowMap",
+    "mapSize",
+    "lightId",
+    "renderList"
+  ],
   "additionalProperties": false,
-  "properties": {}
+  "properties": {
+    "useBlurVarianceShadowMap": {
+      "type": "boolean"
+    },
+    "useVarianceShadowMap": {
+      "type": "boolean"
+    },
+    "usePoissonSampling": {
+      "type": "boolean"
+    },
+    "mapSize": {
+      "type": "integer",
+      "enum": [
+        64,
+        128,
+        256,
+        512,
+        1024,
+        2048
+      ]
+    },
+    "bias": {
+      "type": "number"
+    },
+    "forceBackFacesOnly": {
+      "type": "number"
+    },
+    "lightId": {
+      "type": "string"
+    },
+    "renderList": {
+      "$comment": "IDs of meshes to be rendered",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
 }

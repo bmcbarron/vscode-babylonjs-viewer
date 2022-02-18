@@ -1,8 +1,93 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon action schema",
+  "title": "Action",
   "type": "object",
-  "required": [],
+  "required": [
+    "type",
+    "name",
+    "detached",
+    "properties",
+    "children"
+  ],
   "additionalProperties": false,
-  "properties": {}
+  "properties": {
+    "type": {
+      "type": "number",
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "oneOf": [
+        {
+          "const": 0,
+          "title": "Trigger"
+        },
+        {
+          "const": 1,
+          "title": "Action"
+        },
+        {
+          "const": 2,
+          "title": "Flow Control"
+        }
+      ]
+    },
+    "name": {
+      "$comment": "Name of this action, trigger, or flow control",
+      "type": "string"
+    },
+    "detached": {
+      "$comment": ", (if the node is detached or not. Means it will not be computed if detached === true)",
+      "type": "boolean"
+    },
+    "properties": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Property"
+      }
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "$ref": "#"
+      }
+    },
+    "combine": {
+      "$comment": "Used as a combine action. i.e. name = 'CombineAction'.",
+      "type": "array",
+      "items": {
+        "$ref": "#"
+      }
+    }
+  },
+  "definitions": {
+    "Property": {
+      "title": "Property",
+      "type": "object",
+      "required": [
+        "name",
+        "value"
+      ],
+      "additionalItems": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "targetType": {
+          "$comment": "Used internally by the Babylon.js Actions Builder. Specifies where to find the properties for 'propertyPath'.",
+          "type": "string"
+        }
+      },
+      "examples": [
+        {
+          "name": "target",
+          "value": "Plane001"
+        }
+      ]
+    }
+  }
 }

@@ -1,8 +1,145 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon material schema",
+  "title": "Material",
   "type": "object",
-  "required": [],
+  "required": [
+    "name",
+    "id",
+    "ambient",
+    "diffuse",
+    "specular",
+    "specularPower",
+    "emissive",
+    "alpha",
+    "backFaceCulling",
+    "diffuseTexture"
+  ],
   "additionalProperties": false,
-  "properties": {}
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "string"
+    },
+    "disableDepthWrite": {
+      "type": "boolean"
+    },
+    "ambient": {
+      "$ref": "common.json#/definitions/Color3"
+    },
+    "diffuse": {
+      "$ref": "common.json#/definitions/Color3"
+    },
+    "specular": {
+      "$ref": "common.json#/definitions/Color3"
+    },
+    "specularPower": {
+      "type": "number"
+    },
+    "emissive": {
+      "$ref": "common.json#/definitions/Color3"
+    },
+    "alpha": {
+      "type": "number"
+    },
+    "backFaceCulling": {
+      "type": "boolean"
+    },
+    "wireframe": {
+      "type": "boolean"
+    },
+    "diffuseTexture": {
+      "$ref": "texture.json"
+    },
+    "ambientTexture": {
+      "$ref": "texture.json"
+    },
+    "opacityTexture": {
+      "$ref": "texture.json"
+    },
+    "reflectionTexture": {
+      "$ref": "texture.json"
+    },
+    "refractionTexture": {
+      "$ref": "texture.json"
+    },
+    "indexOfRefraction": {
+      "type": "number"
+    },
+    "emissiveTexture": {
+      "$ref": "texture.json"
+    },
+    "specularTexture": {
+      "$ref": "texture.json"
+    },
+    "bumpTexture": {
+      "$ref": "texture.json"
+    },
+    "lightmapTexture": {
+      "$ref": "texture.json"
+    },
+    "useLightmapAsShadowmap": {
+      "type": "boolean"
+    },
+    "checkReadyOnlyOnce": {
+      "type": "boolean"
+    },
+    "useReflectionFresnelFromSpecular": {
+      "type": "boolean"
+    },
+    "useEmissiveAsIllumination": {
+      "type": "boolean"
+    },
+    "diffuseFresnelParameters": {
+      "$ref": "#/definitions/FresnelParameters"
+    },
+    "opacityFresnelParameters": {
+      "$ref": "#/definitions/FresnelParameters"
+    },
+    "reflectionFresnelParameters": {
+      "$ref": "#/definitions/FresnelParameters"
+    },
+    "refractionFresnelParameters": {
+      "$ref": "#/definitions/FresnelParameters"
+    },
+    "emissiveFresnelParameters": {
+      "$ref": "#/definitions/FresnelParameters"
+    }
+  },
+  "definitions": {
+    "Texture": {},
+    "FresnelParameters": {
+      "title": "FresnelParameters",
+      "type": "object",
+      "required": [
+        "isEnabled",
+        "leftColor",
+        "rightColor",
+        "bias",
+        "power"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "isEnabled": {
+          "type": "boolean"
+        },
+        "leftColor": {
+          "$ref": "common.json#/definitions/Color3"
+        },
+        "rightColor": {
+          "$ref": "common.json#/definitions/Color3"
+        },
+        "bias": {
+          "type": "number"
+        },
+        "power": {
+          "type": "number"
+        }
+      }
+    }
+  }
 }

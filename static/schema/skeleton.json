@@ -1,8 +1,59 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": ".babylon skeleton schema",
+  "title": "Skeleton",
   "type": "object",
-  "required": [],
+  "required": [
+    "name",
+    "id",
+    "bones",
+    "needInitialSkinMatrix"
+  ],
   "additionalProperties": false,
-  "properties": {}
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "bones": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Bone"
+      }
+    },
+    "needInitialSkinMatrix": {
+      "type": "boolean"
+    }
+  },
+  "definitions": {
+    "Bone": {
+      "title": "Bone",
+      "type": "object",
+      "required": [
+        "name",
+        "matrix",
+        "animations"
+      ],
+      "additionalItems": false,
+      "properties": {
+        "parentBoneIndex": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "matrix": {
+          "$ref": "common.json#/definitions/Matrix"
+        },
+        "animations": {
+          "type": "array",
+          "items": {
+            "$comment": "#/dataType must be of Matrix type (3)",
+            "$ref": "animation.json"
+          }
+        }
+      }
+    }
+  }
 }
