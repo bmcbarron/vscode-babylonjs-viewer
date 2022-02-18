@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 
-// TODO: Textures
-// TODO: Icon for .babylon files. https://code.visualstudio.com/api/extension-guides/file-icon-theme
+// TODO: Consider supporting ktx textures. https://www.khronos.org/ktx/
 export const textExtensions = [".babylon", ".gltf", ".obj"];
 export const binaryExtensions = [".glb"];
 export const supportedExtensions = [...textExtensions, ...binaryExtensions];

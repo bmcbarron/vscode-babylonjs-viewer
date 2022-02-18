@@ -1,0 +1,10 @@
+{
+  "iconDefinitions": {
+    "_babylonjs_logo": {
+      "iconPath": "./dist/babylonjs_logo_color.svg"
+    }
+  },
+  "fileExtensions": {
+    "babylon": "_babylonjs_logo"
+  }
+}

@@ -105,7 +105,6 @@ class AssetPreviewProvider
           <button id="render-in-viewer">Render in the ${viewerTitle}</button>
         </div>
         <div class="section">
-          <!-- TODO: Deal with wrapping -->
           <table id="digest" class="data-table"></table>
         </div>
         <div class="section${isText ? "" : " hidden"}">
@@ -144,10 +143,7 @@ class AssetPreviewProvider
     });
 
     host.on("open-as-text", () => {
-      vscode.commands.executeCommand("vscode.openWith", doc.uri, "default");
-      // TODO: There is a command to "reopen" an editor with a different format. Figure out
-      // how to use that instead, to eliminate flicker.
-      panel.dispose();
+      vscode.commands.executeCommand("workbench.action.reopenTextEditor");
     });
 
     host.on("update-default-open-as-text", (args) => {
