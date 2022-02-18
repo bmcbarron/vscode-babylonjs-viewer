@@ -39,4 +39,4 @@ No custom settings. However, this extension causes asset files to be opened in a
 
 ### 1.0.0
 
-Initial release of Asset Viewer and Asset Digest.
+Initial release of the Asset Digest and Asset Viewer.

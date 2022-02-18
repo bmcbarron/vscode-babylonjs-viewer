@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": ".babylon camera schema",
+  "type": "object",
+  "required": [
+    "name",
+    "id",
+    "position",
+    "target",
+    "fov",
+    "minZ",
+    "maxZ",
+    "speed",
+    "inertia",
+    "checkCollisions",
+    "applyGravity",
+    "ellipsoid"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "string"
+    },
+    "parentId": {
+      "type": "string"
+    },
+    "lockedTargetId": {
+      "type": "string"
+    },
+    "position": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "target": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "alpha": {
+      "$comment": "Only for ArcRotateCamera and AnaglyphArcRotateCamera",
+      "type": "number"
+    },
+    "beta": {
+      "$comment": "Only for ArcRotateCamera and AnaglyphArcRotateCamera",
+      "type": "number"
+    },
+    "radius": {
+      "$comment": "Only for ArcRotateCamera, FollowCamera and AnaglyphArcRotateCamera",
+      "type": "number"
+    },
+    "eye_space": {
+      "$comment": "Only for AnaglyphFreeCamera and AnaglyphArcRotateCamera",
+      "type": "number"
+    },
+    "heightOffset": {
+      "$comment": "Only for FollowCamera",
+      "type": "number"
+    },
+    "rotationOffset": {
+      "$comment": "Only for FollowCamera",
+      "type": "number"
+    },
+    "cameraRigMode": {
+      "type": "integer"
+    },
+    "fov": {
+      "$comment": "Unit: radians",
+      "type": "number"
+    },
+    "minZ": {
+      "type": "number"
+    },
+    "maxZ": {
+      "type": "number"
+    },
+    "speed": {
+      "type": "number"
+    },
+    "inertia": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "checkCollisions": {
+      "type": "boolean"
+    },
+    "applyGravity": {
+      "type": "boolean"
+    },
+    "ellipsoid": {
+      "$ref": "common.json#/definitions/Vector3"
+    },
+    "animations": {
+      "type": "array",
+      "items": {
+        "$ref": "animation.json"
+      }
+    },
+    "autoAnimate": {
+      "type": "boolean"
+    },
+    "autoAnimateFrom": {
+      "type": "integer"
+    },
+    "autoAnimateTo": {
+      "type": "integer"
+    },
+    "autoAnimateLoop": {
+      "type": "boolean"
+    },
+    "autoAnimateSpeed": {
+      "type": "number"
+    },
+    "inputmgr": {
+      "$comment": "TODO: map of camera inputs",
+      "type": "object"
+    }
+  }
+}

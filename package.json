@@ -96,7 +96,7 @@
 		"jsonValidation": [
 			{
 				"fileMatch": "*.babylon",
-				"url": "./dist/babylon_schema.json"
+				"url": "./dist/schema/babylon.json"
 			}
 		]
 	},
@@ -153,5 +153,5 @@
 		"webpack-dev": "webpack --mode development --watch",
 		"package": "webpack --mode production --devtool hidden-source-map",
 		"test-compile": "tsc -p ./"
-	},
+	}
 }

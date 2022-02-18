@@ -23,18 +23,23 @@
       "type": "boolean"
     },
     "clearColor": {
-      "$ref": "#/$defs/Color3"
+      "$ref": "common.json#/definitions/Color3"
     },
     "ambientColor": {
-      "$ref": "#/$defs/Color3"
+      "$ref": "common.json#/definitions/Color3"
     },
     "gravity": {
-      "$ref": "#/$defs/Vector3"
+      "$ref": "common.json#/definitions/Vector3",
+      "default": [
+        0,
+        -9,
+        0
+      ]
     },
     "cameras": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Camera"
+        "$ref": "camera.json"
       }
     },
     "activeCamera": {
@@ -43,70 +48,78 @@
     "lights": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Light"
+        "$ref": "#/definitions/Light"
       }
     },
     "reflectionProbes": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/ReflectionProbe"
+        "$ref": "#/definitions/ReflectionProbe"
       }
     },
     "materials": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Material"
+        "$ref": "#/definitions/Material"
       }
     },
     "geometries": {
-      "$ref": "#/$defs/Geometries"
+      "type": "object",
+      "properties": {
+        "vertexData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VertexData"
+          }
+        }
+      }
     },
     "meshes": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Mesh"
+        "$ref": "#/definitions/Mesh"
       }
     },
     "multiMaterials": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/MultiMaterial"
+        "$ref": "#/definitions/MultiMaterial"
       }
     },
     "shadowGenerators": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/ShadowGenerator"
+        "$ref": "#/definitions/ShadowGenerator"
       }
     },
     "skeletons": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Skeleton"
+        "$ref": "#/definitions/Skeleton"
       }
     },
     "particleSystems": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/ParticleSystem"
+        "$ref": "#/definitions/ParticleSystem"
       }
     },
     "lensFlareSystems": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/LensFlareSystem"
+        "$ref": "#/definitions/LensFlareSystem"
       }
     },
     "actions": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Action"
+        "$ref": "#/definitions/Action"
       }
     },
     "sounds": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Sound"
+        "$ref": "#/definitions/Sound"
       }
     },
     "collisionsEnabled": {
@@ -116,19 +129,25 @@
       "type": "boolean"
     },
     "physicsGravity": {
-      "$ref": "#/$defs/Vector3"
+      "$ref": "common.json#/definitions/Vector3",
+      "default": [
+        0,
+        -9.81,
+        0
+      ]
     },
     "physicsEngine": {
       "type": "string",
       "enum": [
         "oimo",
         "cannon"
-      ]
+      ],
+      "default": "oimo"
     },
     "animations": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Animation"
+        "$ref": "animation.json"
       }
     },
     "autoAnimate": {
@@ -145,85 +164,6 @@
     },
     "autoAnimateSpeed": {
       "type": "number"
-    }
-  },
-  "$defs": {
-    "Color3": {
-      "type": "array",
-      "minItems": 3,
-      "maxItems": 3,
-      "items": {
-        "type": "number"
-      }
-    },
-    "Vector3": {
-      "type": "array",
-      "minItems": 3,
-      "maxItems": 3,
-      "items": {
-        "type": "number"
-      }
-    },
-    "Vector4": {
-      "type": "array",
-      "minItems": 4,
-      "maxItems": 4,
-      "items": {
-        "type": "number"
-      }
-    },
-    "Camera": {
-      "type": "object"
-    },
-    "Light": {
-      "type": "object"
-    },
-    "ReflectionProbe": {
-      "type": "object"
-    },
-    "Material": {
-      "type": "object"
-    },
-    "Geometries": {
-      "type": "object",
-      "properties": {
-        "vertexData": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/VertexData"
-          }
-        }
-      }
-    },
-    "VertexData": {
-      "type": "object"
-    },
-    "Mesh": {
-      "type": "object"
-    },
-    "MultiMaterial": {
-      "type": "object"
-    },
-    "ShadowGenerator": {
-      "type": "object"
-    },
-    "Skeleton": {
-      "type": "object"
-    },
-    "ParticleSystem": {
-      "type": "object"
-    },
-    "LensFlareSystem": {
-      "type": "object"
-    },
-    "Action": {
-      "type": "object"
-    },
-    "Sound": {
-      "type": "object"
-    },
-    "Animation": {
-      "type": "object"
     }
   }
 }
