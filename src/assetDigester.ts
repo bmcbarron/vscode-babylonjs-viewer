@@ -38,7 +38,6 @@ const digesters: Record<string, FileDigester | undefined> = {
 };
 
 // Asynchronously computes summary information for `doc`, and adds it to the doc's `Digest`.
-// TODO: Add more file-format-specific data (# of meshes, vertices, textures, etc).
 export async function digestAsset(doc: AssetDocument): Promise<void> {
   try {
     doc.appendToDigest({
@@ -48,6 +47,7 @@ export async function digestAsset(doc: AssetDocument): Promise<void> {
     doc.appendToDigest({
       entries: [
         ["size", friendlySize(stat.size)],
+        // TODO: Consider showing "Yesterday at 5:02pm" or "5 minutes ago", possibly as hover text?
         ["modified", friendlyTimestamp(new Date(stat.mtime))],
       ],
     });
