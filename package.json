@@ -8,6 +8,19 @@
 	"license": "SEE LICENSE in LICENSE.md",
 	"displayName": "Babylon.js Asset Viewer",
 	"description": "A asset renderer/viewer utilizing the Babylon.js engine.",
+	"icon": "dist/Logo_Fullscreen.png",
+	"galleryBanner": {
+		"color": "#C80000",
+		"theme": "dark"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bmcbarron/vscode-babylonjs-viewer.git"
+	},
+	"homepage": "https://github.com/bmcbarron/vscode-babylonjs-viewer",
+	"bugs": {
+		"url": "https://github.com/bmcbarron/vscode-babylonjs-viewer/issues"
+	},
 	"categories": [
 		"Visualization"
 	],
@@ -16,6 +29,7 @@
 		".babylon",
 		"viewer"
 	],
+	"preview": true,
 	"main": "./dist/extension.js",
 	"contributes": {
 		"viewsContainers": {
