@@ -130,6 +130,7 @@
 		"css-loader": "^6.6.0",
 		"eslint": "^8.6.0",
 		"glob": "^7.2.0",
+		"json-schema-to-typescript": "^10.1.5",
 		"mini-css-extract-plugin": "^2.5.3",
 		"mocha": "^9.1.3",
 		"sass": "^1.49.7",
@@ -152,6 +153,8 @@
 		"webpack": "webpack --mode development",
 		"webpack-dev": "webpack --mode development --watch",
 		"package": "webpack --mode production --devtool hidden-source-map",
-		"test-compile": "tsc -p ./"
+		"test-compile": "tsc -p ./",
+		"// generate-schema-types": "TODO: look into a type generator that puts constants into the scope of their respective schema files.",
+		"generate-schema-types": "npx json2ts -i static/schema/babylon.json --cwd static/schema/ -o static/types/babylon.d.ts"
 	}
 }

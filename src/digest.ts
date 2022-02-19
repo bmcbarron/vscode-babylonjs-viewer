@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { AssetDocument } from "./asset";
-import { summarizeAsset } from "./assetScanner";
+import { digestAsset } from "./assetDigester";
 import { textExtensions } from "./common";
 import {
   commandFocus,
@@ -51,7 +51,7 @@ class AssetPreviewProvider
     _token: vscode.CancellationToken
   ): Promise<AssetDocument> {
     const doc = await AssetDocument.create(uri);
-    summarizeAsset(doc);
+    digestAsset(doc);
     return doc;
   }
 
@@ -109,7 +109,8 @@ class AssetPreviewProvider
         </div>
         <div class="section${isText ? "" : " hidden"}">
           <div class="text">
-            This file can also be <a id="open-as-text" href="#">opened in the text editor</a>.
+            This file can also be <a id="open-as-text" href="#" title="Re-open in a text editor">
+            opened in the text editor</a>.
           </div>
           <input id="default-open-as-text" type="checkbox" ${
             currentOpenAsText ? "checked" : ""

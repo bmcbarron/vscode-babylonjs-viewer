@@ -24,6 +24,7 @@ table.data-table th:nth-child(1), table.data-table td:nth-child(1) {
   border-right: 1px solid var(--vscode-list-deemphasizedForeground);
   text-align: right;
   padding: 0 0.5em;
+  white-space: pre;
 }
 
 table.data-table th:nth-child(2), table.data-table td:nth-child(2) {

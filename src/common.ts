@@ -38,6 +38,10 @@ export function friendlySize(bytes: number) {
   }
 }
 
+export function friendlyTimestamp(date: Date) {
+  return date.toLocaleString();
+}
+
 // Zero-width-space, which can be used to provide "soft" breakpoints in a long string.
 export const ZWS = "\u200b";
 
