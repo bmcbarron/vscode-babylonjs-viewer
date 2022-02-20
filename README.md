@@ -1,11 +1,14 @@
 # babylonjs-viewer README
 
-A viewer for several asset files used in game development with the
-[Babylon.js](https://babylonjs.com) engine. Typically these files are optimized for parsing by
-software rather than humans. By default, asset files are visualized with a digest summary of
-their contents. With a single click, the asset can be rendered in a dedicated panel by the
-Babylon.js engine. The viewer panel supports the same functionality as the
-[Babylon.js Sandbox](https://sandbox.babylonjs.com), including full Inspector support.
+This is a viewer for several of the asset file types used for game development with the
+[Babylon.js](https://babylonjs.com) engine. Typically such files are formatted for parsing by
+software rather than humans, so opening them in VS Code isn't very helpful.
+
+With this extension, opening one of these files presents a digest that summarizes the file content
+and metadata. With a button click, the asset renders in a dedicated viewer panel powered by the
+Babylon.js engine. The viewer supports the same functionality as the
+[Babylon.js Sandbox](https://sandbox.babylonjs.com), including full
+[Inspector](https://doc.babylonjs.com/toolsAndResources/tools/inspector) support.
 
 ## Features
 
@@ -15,11 +18,9 @@ Babylon.js engine. The viewer panel supports the same functionality as the
 * Full JSON schema for `.babylon` files (used for syntax highlighting and intellisense in text-edit
   mode).
 
-**TODO**: If there is an image subfolder under your extension project workspace:
+**TODO**: Add feature screenshots/animations to the media folder.
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+\!\[feature X\]\(media/feature-x.png\)
 
 ## Requirements
 
@@ -27,16 +28,18 @@ None.
 
 ## Extension Settings
 
-No custom settings. However, this extension causes asset files to be opened in a digest summary view instead of the text editor. This default can be reverted on a per-file-extension basis by modifying
-`workbench.editorAssociations` or right-clicking on an asset file and selecting `Open With...`.
+No custom settings. However, by default this extension opens asset files in a digest summary view
+instead of the text editor. This can be changed on a per-file-extension basis through any of:
+* Checking the `Open <extension> files as text by default` box on the digest summary.
+* Right-clicking on an asset file and selecting `Open With...`
+* Modifying `workbench.editorAssociations`
 
 ## Known Issues
 
-* The contents of the summary digests are a work in progress.
-* The file analysis to produce summary digests is re-executed every time a file is opened.
+* The contents of the summary digests are a work in progress. Suggestions and requests are welcome
+  on the project [Issues Page](https://github.com/bmcbarron/vscode-babylonjs-viewer/issues).
+* The file analysis to produce summary digests is re-executed every time a file is opened. In the
+  future, an LRU cache will prevent re-processing of recently accessed files.
+* Changes to a file do not automatically update any opened digest or viewer windows for that file.
 
-## Release Notes
-
-### 1.0.0
-
-Initial release of the Asset Digest and Asset Viewer.
+## [Release Notes](CHANGELOG.md)

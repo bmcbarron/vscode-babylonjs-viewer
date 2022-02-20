@@ -8,7 +8,7 @@
 	"license": "SEE LICENSE in LICENSE.md",
 	"displayName": "Babylon.js Asset Viewer",
 	"description": "A asset renderer/viewer utilizing the Babylon.js engine.",
-	"icon": "dist/Logo_Fullscreen.png",
+	"icon": "media/Logo_Fullscreen.png",
 	"galleryBanner": {
 		"color": "#C80000",
 		"theme": "dark"
