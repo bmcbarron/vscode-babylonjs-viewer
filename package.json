@@ -1,6 +1,6 @@
 {
 	"name": "babylonjs-viewer",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"publisher": "bmcbarron",
 	"engines": {
 		"vscode": "^1.64.0"
