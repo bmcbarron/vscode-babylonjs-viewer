@@ -10,7 +10,7 @@
 	"description": "A asset renderer/viewer utilizing the Babylon.js engine.",
 	"icon": "media/Logo_Fullscreen.png",
 	"galleryBanner": {
-		"color": "#C80000",
+		"color": "#201936",
 		"theme": "dark"
 	},
 	"repository": {
