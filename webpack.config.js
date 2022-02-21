@@ -85,7 +85,15 @@ const config = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new CopyWebpackPlugin({ patterns: [{ from: "static" }] }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: "static" },
+        {
+          from: path.join("node_modules", "@vscode", "codicons", "dist"),
+          to: "codicons",
+        },
+      ],
+    }),
   ],
 };
 module.exports = config;

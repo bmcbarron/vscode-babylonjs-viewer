@@ -61,17 +61,6 @@ class AssetPreviewProvider
     _token: vscode.CancellationToken
   ): Promise<void> {
     const isText = textExtensions.includes(doc.extension);
-    // TODO: Consider generalizing extension files local to "dist" vs "node_modules".
-    const codiconsUri = panel.webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this.context.extensionUri,
-        "node_modules",
-        "@vscode/codicons",
-        "dist",
-        "codicon.css"
-      )
-    );
-
     const currentEditor = getCurrentEditor(doc.extension);
     const currentOpenAsText = currentEditor === defaultEditorId;
     console.log(`${currentEditor} ${currentOpenAsText}`);
@@ -85,7 +74,7 @@ class AssetPreviewProvider
       },
       uriRoot: this.context.extensionUri,
       styleFilenames: [
-        codiconsUri,
+        "codicons/codicon.css",
         "reset.css",
         "vscode.css",
         "codicon-modifiers.css",
