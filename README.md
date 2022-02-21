@@ -13,14 +13,15 @@ Babylon.js engine. The viewer supports the same functionality as the
 ## Features
 
 * Support for multiple asset file types: `.babylon`, `.gltf`, `.glb`, and `.obj`.
-* Filetype-specific digest summaries of asset file contents.
 * Rendering support via the Babylon.js engine.
+
+  ![Asset Viewer](media/assetviewer.gif)
+
+* Filetype-specific digest summaries of asset file contents.
 * Full JSON schema for `.babylon` files (used for syntax highlighting and intellisense in text-edit
   mode).
 
-**TODO**: Add feature screenshots/animations to the media folder.
-
-\!\[feature X\]\(media/feature-x.png\)
+  ![.babylon JSON Schema](media/jsonschema.gif)
 
 ## Requirements
 

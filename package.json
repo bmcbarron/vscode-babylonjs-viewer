@@ -1,6 +1,6 @@
 {
 	"name": "babylonjs-viewer",
-	"version": "0.9.1",
+	"version": "0.9.2",
 	"publisher": "bmcbarron",
 	"engines": {
 		"vscode": "^1.64.0"
@@ -141,6 +141,7 @@
 		"@typescript-eslint/parser": "^5.9.1",
 		"@vscode/codicons": "^0.0.28",
 		"@vscode/test-electron": "^2.0.3",
+		"cross-var": "^1.1.0",
 		"css-loader": "^6.6.0",
 		"eslint": "^8.6.0",
 		"glob": "^7.2.0",
@@ -163,11 +164,13 @@
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src --ext ts",
 		"test": "node ./out/test/runTest.js",
-		"vscode:prepublish": "npm run package",
-		"webpack": "webpack --mode development",
-		"webpack-dev": "webpack --mode development --watch",
-		"prepackage": "rm -rf ./dist",
-		"package": "webpack --mode production --devtool hidden-source-map",
+		"vscode:prepublish": "npm run webpack-prod",
+		"webpack-dev": "webpack --mode development",
+		"webpack-watch": "webpack --mode development --watch",
+		"prewebpack-prod": "rm -rf ./dist",
+		"webpack-prod": "webpack --mode production --devtool hidden-source-map",
+		"package": "vsce package",
+		"install": "cross-var code --install-extension $npm_package_name-$npm_package_version.vsix",
 		"test-compile": "tsc -p ./",
 		"// generate-schema-types": "TODO: look into a type generator that puts constants into the scope of their respective schema files.",
 		"generate-schema-types": "npx json2ts -i static/schema/babylon.json --cwd static/schema/ -o static/types/babylon.d.ts"

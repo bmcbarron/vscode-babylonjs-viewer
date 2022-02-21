@@ -8,3 +8,4 @@ static/**
 .gitignore
 tsconfig.json
 webpack.config.js
+NOTES.md
