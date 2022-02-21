@@ -11,3 +11,8 @@ https://www.screentogif.com/ (best at this point)
 1. Developer: Toggle Developer Tools
 1. In console: window.resizeTo(1001, 801) // Note: seems to undersize by 1 pixel
 1. Select window with ScreenToGif, then downsize edit box to 1000,800 and drag +1,+1
+1. SaveAs Settings that worked well:
+   * Encoder: ScreenToGif Built-in encoder / Most used colors
+   * Colors: 256
+   * Use a global color table
+   * Detect unchanged pixels / Replace these pixels with a chroma key
