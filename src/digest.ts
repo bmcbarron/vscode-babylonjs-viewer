@@ -2,11 +2,7 @@ import * as vscode from "vscode";
 import { AssetDocument } from "./asset";
 import { digestAsset } from "./assetDigester";
 import { SharedContext, textExtensions } from "./common";
-import {
-  commandFocus,
-  commandRender,
-  shortTitle as viewerTitle,
-} from "./viewer";
+import { commandRender, shortTitle as viewerTitle } from "./viewer";
 import { WebviewHost } from "./wvHost";
 
 const editorId = "babylonjs.assetDigest";
@@ -141,9 +137,7 @@ class AssetPreviewProvider
     });
 
     host.on("render-in-viewer", () => {
-      vscode.commands.executeCommand(commandFocus).then(() => {
-        vscode.commands.executeCommand(commandRender, doc.uri);
-      });
+      vscode.commands.executeCommand(commandRender, doc.uri);
     });
 
     host.on("open-as-text", () => {

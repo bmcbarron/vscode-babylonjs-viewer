@@ -68,17 +68,16 @@ class AssetViewerProvider implements vscode.WebviewViewProvider {
     if (this._view) {
       this._view.show(true);
     } else {
-      console.warn(`${title} is not available`);
+      // Note: This does not pin the view. There does not seem to be a command to pin a view.
+      // Hence, if the view's panel is closed and reopened, the view will be gone until re-focused
+      // or re-pinned (manually).
+      vscode.commands.executeCommand(commandFocus);
     }
   }
 
   public render(uri: vscode.Uri) {
     this._setAssetUri(uri);
-    if (this._view) {
-      this._view.show(true);
-    } else {
-      console.warn(`${title} is not available`);
-    }
+    this.open();
   }
 
   private _setAssetUri(uri: vscode.Uri) {

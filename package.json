@@ -172,6 +172,7 @@
 		"webpack-prod": "webpack --mode production --devtool hidden-source-map",
 		"package": "vsce package",
 		"install": "cross-var code --install-extension $npm_package_name-$npm_package_version.vsix",
+		"publish": "vsce publish",
 		"test-compile": "tsc -p ./",
 		"// generate-schema-types": "TODO: look into a type generator that puts constants into the scope of their respective schema files.",
 		"generate-schema-types": "npx json2ts -i static/schema/babylon.json --cwd static/schema/ -o static/types/babylon.d.ts"
