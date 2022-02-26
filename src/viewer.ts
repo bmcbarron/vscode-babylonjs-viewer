@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getExtension, supportedExtensions } from "./common";
+import { getExtension, SharedContext, supportedExtensions } from "./common";
 import { WebviewHost } from "./wvHost";
 
 export const viewId = "babylonjs.assetViewer";
@@ -105,7 +105,8 @@ class AssetViewerProvider implements vscode.WebviewViewProvider {
 }
 
 export function register(
-  context: vscode.ExtensionContext
+  context: vscode.ExtensionContext,
+  sharedContext: SharedContext
 ): vscode.Disposable[] {
   const provider = new AssetViewerProvider(context);
 
@@ -124,11 +125,18 @@ export function register(
 
   result.push(
     vscode.commands.registerCommand(commandRender, (uri) => {
-      if (
-        uri instanceof vscode.Uri &&
-        supportedExtensions.includes(getExtension(uri))
-      ) {
-        provider.render(uri);
+      // This really wants the proposed tab api:
+      // https://github.com/microsoft/vscode/issues/133532
+      let targetUri: vscode.Uri | undefined;
+      if (uri instanceof vscode.Uri) {
+        targetUri = uri;
+      } else if (sharedContext.activeResource) {
+        targetUri = sharedContext.activeResource;
+      } else if (vscode.window.activeTextEditor?.document.uri) {
+        targetUri = vscode.window.activeTextEditor.document.uri;
+      }
+      if (targetUri && supportedExtensions.includes(getExtension(targetUri))) {
+        provider.render(targetUri);
       }
     })
   );

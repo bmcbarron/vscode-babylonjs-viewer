@@ -48,3 +48,7 @@ export const ZWS = "\u200b";
 export function wrappableFilename(filename: string) {
   return filename.replace(/[/\\]/g, (match) => `${match}${ZWS}`);
 }
+
+export interface SharedContext {
+  activeResource?: vscode.Uri;
+}

@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { AssetDocument } from "./asset";
 import { digestAsset } from "./assetDigester";
-import { textExtensions } from "./common";
+import { SharedContext, textExtensions } from "./common";
 import {
   commandFocus,
   commandRender,
@@ -43,7 +43,10 @@ function updateCurrentEditor(extension: string, id: string) {
 class AssetPreviewProvider
   implements vscode.CustomReadonlyEditorProvider<AssetDocument>
 {
-  constructor(private readonly context: vscode.ExtensionContext) {}
+  constructor(
+    private readonly context: vscode.ExtensionContext,
+    private readonly sharedContext: SharedContext
+  ) {}
 
   async openCustomDocument(
     uri: vscode.Uri,
@@ -63,7 +66,6 @@ class AssetPreviewProvider
     const isText = textExtensions.includes(doc.extension);
     const currentEditor = getCurrentEditor(doc.extension);
     const currentOpenAsText = currentEditor === defaultEditorId;
-    console.log(`${currentEditor} ${currentOpenAsText}`);
 
     const host = new WebviewHost({
       webview: panel.webview,
@@ -115,8 +117,20 @@ class AssetPreviewProvider
       `,
     });
 
+    const updateActiveResource = (active: boolean) => {
+      if (active) {
+        this.sharedContext.activeResource = doc.uri;
+      } else if (this.sharedContext.activeResource === doc.uri) {
+        this.sharedContext.activeResource = undefined;
+      }
+    };
+    updateActiveResource(true);
     panel.onDidChangeViewState(() => {
+      updateActiveResource(panel.visible && panel.active);
       host.post("state", { active: panel.active });
+    });
+    panel.onDidDispose(() => {
+      updateActiveResource(false);
     });
 
     host.on("ready", () => {
@@ -144,9 +158,10 @@ class AssetPreviewProvider
 }
 
 export function register(
-  context: vscode.ExtensionContext
+  context: vscode.ExtensionContext,
+  sharedContext: SharedContext
 ): vscode.Disposable[] {
-  const provider = new AssetPreviewProvider(context);
+  const provider = new AssetPreviewProvider(context, sharedContext);
 
   const result: vscode.Disposable[] = [];
   result.push(

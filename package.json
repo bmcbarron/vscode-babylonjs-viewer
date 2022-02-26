@@ -1,6 +1,6 @@
 {
 	"name": "babylonjs-viewer",
-	"version": "0.9.2",
+	"version": "0.9.3",
 	"publisher": "bmcbarron",
 	"engines": {
 		"vscode": "^1.64.0"
@@ -78,6 +78,7 @@
 				"category": "Babylon.js"
 			},
 			{
+				"enablement": "resourceExtname =~ /^\\.(babylon|gltf|glb|obj)$/",
 				"command": "babylonjs.assetViewer.render",
 				"title": "Render in the Asset Viewer",
 				"category": "Babylon.js"
@@ -86,14 +87,14 @@
 		"menus": {
 			"explorer/context": [
 				{
-					"when": "resourceFilename =~ /\\.(babylon|gltf|glb|obj)$/",
+					"when": "resourceExtname =~ /^\\.(babylon|gltf|glb|obj)$/",
 					"command": "babylonjs.assetViewer.render",
 					"group": "navigation"
 				}
 			],
 			"editor/title/context": [
 				{
-					"when": "resourceFilename =~ /\\.(babylon|gltf|glb|obj)$/",
+					"when": "resourceExtname =~ /^\\.(babylon|gltf|glb|obj)$/",
 					"command": "babylonjs.assetViewer.render",
 					"group": "navigation"
 				}

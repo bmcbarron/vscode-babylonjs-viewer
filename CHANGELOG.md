@@ -4,6 +4,10 @@ All notable changes to the "babylonjs-viewer" extension will be documented in th
 
 ## [Unreleased]
 
+## [0.9.3] - 2022-02-25
+
+- Fix: Only enable babylonjs.assetViewer.render command when a renderable file is active. 
+
 ## [0.9.2] - 2022-02-21
 
 - Fix missing codicons bug.
